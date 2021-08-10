@@ -1,0 +1,16 @@
+{
+  "name": "@shopr/core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "java-dev -classpath src HelloWorld"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "java-without-the-tears": "*",
+    "typescript": "^4.3.5"
+  }
+}
