@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "java-dev -classpath src HelloWorld",
+    "dev": "java-dev -classpath src Shop",
     "build": "rimraf dist && tsc",
-    "start": "java -classpath dist HelloWorld"
+    "start": "java -classpath dist Shop"
   },
   "keywords": [],
   "author": "",

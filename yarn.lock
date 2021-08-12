@@ -123,9 +123,9 @@ inherits@2:
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
 
 java-without-the-tears@*:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/java-without-the-tears/-/java-without-the-tears-1.0.4.tgz#638b96297c899fae1a6a19beb392105a16a416c9"
-  integrity sha512-WHs0KmY3d0ixubVGDEatAswqDEEQ1jm17d8aJzEFZakF0yzAXSQGjED3YvBDp3mZKejTHV/huWbdC+iymGy2wQ==
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/java-without-the-tears/-/java-without-the-tears-1.0.7.tgz#b0c3f629e6e13f386c2aa37e55f6eae67f462284"
+  integrity sha512-FOmKOQw+5A0K9qpJyGKoVfGQKzbuA5VFYBQHsyy4Ga6vo4p/FiErUhSrI9+mK79Mno/Wme8pZYyWlVljTwoRyQ==
   dependencies:
     "@types/node" "^16.4.13"
     commander "^7.2.0"
