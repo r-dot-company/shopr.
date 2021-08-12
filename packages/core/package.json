@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "java-dev -classpath src HelloWorld"
+    "dev": "java-dev -classpath src HelloWorld",
+    "build": "rimraf dist && tsc",
+    "start": "java -classpath dist HelloWorld"
   },
   "keywords": [],
   "author": "",
@@ -12,5 +14,8 @@
   "dependencies": {
     "java-without-the-tears": "*",
     "typescript": "^4.3.5"
+  },
+  "devDependencies": {
+    "rimraf": "^3.0.2"
   }
 }
