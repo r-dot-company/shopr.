@@ -1,14 +1,22 @@
-import { init, sequelize, Product } from "./db"
+import db from "./db"
+import crypto from "crypto"
 
-async function run() {
-    await init()
-
-    await Product.create({
-        name: "My First Product",
-        price: 19.99
-    })
-
-    await sequelize.close()
+function hash(input: string) {
+    return crypto
+        .createHash("sha256")
+        .update(input, "utf8")
+        .digest("hex")
 }
 
-run()
+async function run() {
+    await db.user.deleteMany()
+
+    await db.user.create({
+        data: {
+            email: "my-email@mail.com",
+            password: hash("123456")
+        }
+    })
+}
+
+run().then(db.$disconnect.bind(db))

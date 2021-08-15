@@ -1,18 +1,5 @@
-import { Sequelize } from "sequelize"
-import * as models from "./models"
+import { PrismaClient } from "@prisma/client"
 
-export const sequelize = new Sequelize({
-    dialect: "mysql",
-    host: "localhost",
-    username: "root",
-    password: "root",
-    database: "shopr"
-})
+const client = new PrismaClient()
 
-export async function init() {
-    models.init(sequelize)
-    await sequelize.authenticate()
-    await sequelize.sync({ force: true })
-}
-
-export * from "./models"
+export default client
