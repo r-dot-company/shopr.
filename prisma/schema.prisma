@@ -44,3 +44,11 @@ model Order {
   product   Product @relation(fields: [productId], references: [id])
   productId Int
 }
+
+model Admin {
+  id        String   @default(uuid()) @id
+  username  String   @db.VarChar(255)
+  password  String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
