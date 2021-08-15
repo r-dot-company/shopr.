@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "ts-node ./src/test.ts",
+    "test": "ts-node ./src/test.ts",
+    "dev:rest": "ts-node ./src/rest/index.ts",
     "seed": "ts-node ./prisma/seed.ts"
   },
   "devDependencies": {
@@ -16,6 +17,7 @@
   },
   "dependencies": {
     "@prisma/client": "2.29.1",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "prisma": "2.29.1"
   }
