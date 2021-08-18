@@ -1,4 +1,11 @@
-import { IsInt, IsNotEmpty, IsNumber, IsPositive, IsString, Max, MaxLength, Min, MinLength } from "class-validator"
+import {
+    IsNotEmpty,
+    IsNumber,
+    IsPositive,
+    IsString,
+    Max,
+    MaxLength,
+} from "class-validator"
 
 export class CreateProductDTO {
     @IsString()
