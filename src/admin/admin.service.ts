@@ -6,10 +6,10 @@ export class AdminService {
     constructor(private readonly prisma: PrismaService) {}
 
     async findById(id: string) {
-        return await this.prisma.admin.findUnique({
+        return await this.prisma.user.findUnique({
             where: { id },
             include: {
-                user: true
+                admin: true
             }
         })
     }

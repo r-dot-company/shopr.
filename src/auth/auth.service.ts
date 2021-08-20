@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common"
 import { JwtService } from "@nestjs/jwt"
-import { Admin } from "@prisma/client"
+import { User } from "@prisma/client"
 import { AdminService } from "src/admin/admin.service"
 import { CryptoService } from "src/crypto/crypto.service"
 import { JWTPayload } from "./jwt-payload.interface"
@@ -15,19 +15,19 @@ export class AuthService {
 
     async validateAdmin(email: string, password: string) {
         const user = await this.adminService.findByEmail(email)
-        if (!user) {
+        if (!user?.admin) {
             return null
         }
         const isValidPassword = await this.cryptoService.compare(
             password,
             user.password
         )
-        return !isValidPassword ? null : user.admin
+        return !isValidPassword ? null : user
     }
 
-    async generateToken(admin: Admin) {
+    async generateToken(user: User) {
         const payload: JWTPayload = {
-            sub: admin.id
+            sub: user.id
         }
         const token = await this.jwtService.signAsync(payload)
         return { access_token: token }
