@@ -9,8 +9,13 @@ async function seedAdmin() {
     if (admin.length === 0) {
         await client.admin.create({
             data: {
-                email: "admin@mail.com",
-                password: bcrypt.hashSync("admin", 5)
+                protected: true,
+                user: {
+                    create: {
+                        email: "admin@mail.com",
+                        password: bcrypt.hashSync("admin", 5)
+                    }  
+                }
             }
         })
     }

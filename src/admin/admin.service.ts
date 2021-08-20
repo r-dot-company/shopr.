@@ -5,7 +5,21 @@ import { PrismaService } from "src/prisma/prisma.service"
 export class AdminService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async findOne(where: { email?: string, id?: string }) {
-        return await this.prisma.admin.findUnique({ where })
+    async findById(id: string) {
+        return await this.prisma.admin.findUnique({
+            where: { id },
+            include: {
+                user: true
+            }
+        })
+    }
+
+    async findByEmail(email: string) {
+        return await this.prisma.user.findUnique({
+            where: { email },
+            include: {
+                admin: true
+            }
+        })
     }
 }

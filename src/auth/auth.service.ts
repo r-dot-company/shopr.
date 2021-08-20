@@ -14,16 +14,15 @@ export class AuthService {
     ) {}
 
     async validateAdmin(email: string, password: string) {
-        const admin = await this.adminService.findOne({ email })
-        if (!admin) {
+        const user = await this.adminService.findByEmail(email)
+        if (!user) {
             return null
         }
         const isValidPassword = await this.cryptoService.compare(
             password,
-            admin.password
+            user.password
         )
-        delete admin.password
-        return !isValidPassword ? null : admin
+        return !isValidPassword ? null : user.admin
     }
 
     async generateToken(admin: Admin) {
@@ -36,8 +35,6 @@ export class AuthService {
 
     async validateJWTPayload(payload: JWTPayload) {
         const id = payload.sub
-        const admin = await this.adminService.findOne({ id })
-        delete admin.password
-        return admin
+        return await this.adminService.findById(id)
     }
 }
