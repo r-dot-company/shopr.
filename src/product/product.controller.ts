@@ -6,12 +6,10 @@ import {
     Param,
     ParseIntPipe,
     Post,
-    Put,
-    UseGuards,
+    Put
 } from "@nestjs/common"
-import { JWTAuthGuard } from "src/auth/guards/jwt-auth.guard"
+import { Auth } from "src/auth/auth.decorator"
 import { Role } from "src/role/role.enum"
-import { RequireRole } from "src/role/roles.decorator"
 import { CreateProductDTO } from "./dto/create-product.dto"
 import { UpdateProductDTO } from "./dto/update-product.dto"
 import { ProductEntity } from "./product.entity"
@@ -33,16 +31,14 @@ export class ProductController {
         return new ProductEntity(product)
     }
 
-    @UseGuards(JWTAuthGuard)
-    @RequireRole(Role.Admin)
+    @Auth(Role.Admin)
     @Post()
     async create(@Body() createProductDTO: CreateProductDTO) {
         const product = await this.productService.create(createProductDTO)
         return new ProductEntity(product)
     }
 
-    @UseGuards(JWTAuthGuard)
-    @RequireRole(Role.Admin)
+    @Auth(Role.Admin)
     @Put(":id")
     async update(
         @Param("id", ParseIntPipe) id: number,
@@ -52,8 +48,7 @@ export class ProductController {
         return new ProductEntity(product)
     }
 
-    @UseGuards(JWTAuthGuard)
-    @RequireRole(Role.Admin)
+    @Auth(Role.Admin)
     @Delete(":id")
     async delete(@Param("id", ParseIntPipe) id: number) {
         const product = await this.productService.delete(id)

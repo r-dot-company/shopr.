@@ -4,10 +4,9 @@ import {
     Delete,
     Post,
     Put,
-    Request,
-    UseGuards
+    Request
 } from "@nestjs/common"
-import { JWTAuthGuard } from "src/auth/guards/jwt-auth.guard"
+import { Auth } from "src/auth/auth.decorator"
 import { TakenException } from "src/exceptions/taken.exception"
 import { CreateUserDTO } from "./dto/create-user.dto"
 import { UpdateUserDTO } from "./dto/update-user.dto"
@@ -28,14 +27,14 @@ export class UserController {
         return new UserEntity(user)
     }
 
-    @UseGuards(JWTAuthGuard)
+    @Auth()
     @Put()
     async update(@Request() req, @Body() updateUserDTO: UpdateUserDTO) {
         const user = await this.userService.update(req.user.id, updateUserDTO)
         return new UserEntity(user)
     }
 
-    @UseGuards(JWTAuthGuard)
+    @Auth()
     @Delete()
     async delete(@Request() req) {
         const user = await this.userService.delete(req.user.id)
