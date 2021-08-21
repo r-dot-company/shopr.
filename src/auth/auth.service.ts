@@ -1,23 +1,20 @@
 import { Injectable } from "@nestjs/common"
 import { JwtService } from "@nestjs/jwt"
 import { User } from "@prisma/client"
-import { AdminService } from "src/admin/admin.service"
 import { CryptoService } from "src/crypto/crypto.service"
+import { UserService } from "src/user/user.service"
 import { JWTPayload } from "./jwt-payload.interface"
 
 @Injectable()
 export class AuthService {
     constructor(
-        private readonly adminService: AdminService,
+        private readonly userService: UserService,
         private readonly cryptoService: CryptoService,
         private readonly jwtService: JwtService
     ) {}
 
-    async validateAdmin(email: string, password: string) {
-        const user = await this.adminService.findByEmail(email)
-        if (!user?.admin) {
-            return null
-        }
+    async validateUser(email: string, password: string) {
+        const user = await this.userService.findByEmail(email)
         const isValidPassword = await this.cryptoService.compare(
             password,
             user.password
@@ -35,6 +32,6 @@ export class AuthService {
 
     async validateJWTPayload(payload: JWTPayload) {
         const id = payload.sub
-        return await this.adminService.findById(id)
+        return await this.userService.findById(id)
     }
 }

@@ -16,10 +16,10 @@ export class JWTStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(payload: JWTPayload) {
-        const admin = await this.authService.validateJWTPayload(payload)
-        if (!admin) {
+        const user = await this.authService.validateJWTPayload(payload)
+        if (!user) {
             throw new UnauthorizedException()
         }
-        return admin
+        return user
     }
 }
