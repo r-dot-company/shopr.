@@ -3,6 +3,7 @@ import {
     Controller,
     Delete,
     Get,
+    NotFoundException,
     Param,
     ParseIntPipe,
     Post,
@@ -44,14 +45,22 @@ export class ProductController {
         @Param("id", ParseIntPipe) id: number,
         @Body() updateProductDTO: UpdateProductDTO
     ) {
-        const product = await this.productService.update(id, updateProductDTO)
-        return new ProductEntity(product)
+        const product = await this.productService.findById(id)
+        if (!product) {
+            throw new NotFoundException()
+        }
+        const newProduct = await this.productService.update(id, updateProductDTO)
+        return new ProductEntity(newProduct)
     }
 
     @Auth(Role.Admin)
     @Delete(":id")
     async delete(@Param("id", ParseIntPipe) id: number) {
-        const product = await this.productService.delete(id)
+        const product = await this.productService.findById(id)
+        if (!product) {
+            throw new NotFoundException()
+        }
+        await this.productService.delete(id)
         return new ProductEntity(product)
     }
 }
