@@ -11,6 +11,7 @@ import { JWTAuthGuard } from "src/auth/guards/jwt-auth.guard"
 import { TakenException } from "src/exceptions/taken.exception"
 import { CreateUserDTO } from "./dto/create-user.dto"
 import { UpdateUserDTO } from "./dto/update-user.dto"
+import { UserEntity } from "./entities/user.entity"
 import { UserService } from "./user.service"
 
 @Controller("user")
@@ -23,18 +24,21 @@ export class UserController {
         if (existingUser) {
             throw new TakenException("Email")
         }
-        await this.userService.create(creatUserDTO)
+        const user = await this.userService.create(creatUserDTO)
+        return new UserEntity(user)
     }
 
     @UseGuards(JWTAuthGuard)
     @Put()
     async update(@Request() req, @Body() updateUserDTO: UpdateUserDTO) {
-        await this.userService.update(req.user.id, updateUserDTO)
+        const user = await this.userService.update(req.user.id, updateUserDTO)
+        return new UserEntity(user)
     }
 
     @UseGuards(JWTAuthGuard)
     @Delete()
     async delete(@Request() req) {
-        await this.userService.delete(req.user.id)
+        const user = await this.userService.delete(req.user.id)
+        return new UserEntity(user)
     }
 }

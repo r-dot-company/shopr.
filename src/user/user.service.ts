@@ -26,7 +26,7 @@ export class UserService {
     }
 
     async create(createUserDTO: CreateUserDTO) {
-        await this.prisma.user.create({
+        return await this.prisma.user.create({
             data: {
                 ...createUserDTO,
                 password: await this.cryptoService.hash(
@@ -37,14 +37,14 @@ export class UserService {
     }
 
     async update(id: string, updateUserDTO: UpdateUserDTO) {
-        await this.prisma.user.update({
+        return await this.prisma.user.update({
             data: updateUserDTO,
             where: { id }
         })
     }
 
     async delete(id: string) {
-        await this.prisma.user.delete({
+        return await this.prisma.user.delete({
             where: { id }
         })
     }

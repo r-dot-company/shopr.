@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Request, UseGuards } from "@nestjs/common"
+import { UserEntity } from "src/user/entities/user.entity"
 import { AuthService } from "./auth.service"
 import { JWTAuthGuard } from "./guards/jwt-auth.guard"
 import { LocalAuthGuard } from "./guards/local-auth.guard"
@@ -16,6 +17,6 @@ export class AuthController {
     @UseGuards(JWTAuthGuard)
     @Get("/profile")
     async profile(@Request() req) {
-        return req.user
+        return new UserEntity(req.user)
     }
 }
