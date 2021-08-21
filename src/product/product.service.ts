@@ -18,20 +18,20 @@ export class ProductService {
     }
 
     async create(createProductDTO: CreateProductDTO) {
-        await this.prisma.product.create({
+        return await this.prisma.product.create({
             data: createProductDTO
         })
     }
 
     async update(id: number, updateProductDTO: UpdateProductDTO) {
-        await this.prisma.product.update({
+        return await this.prisma.product.update({
             where: { id },
             data: updateProductDTO
         })
     }
 
     async delete(id: number) {
-        await this.prisma.product.delete({
+        return await this.prisma.product.delete({
             where: { id }
         })
     }

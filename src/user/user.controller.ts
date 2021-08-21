@@ -11,7 +11,7 @@ import { JWTAuthGuard } from "src/auth/guards/jwt-auth.guard"
 import { TakenException } from "src/exceptions/taken.exception"
 import { CreateUserDTO } from "./dto/create-user.dto"
 import { UpdateUserDTO } from "./dto/update-user.dto"
-import { UserEntity } from "./entities/user.entity"
+import { UserEntity } from "./user.entity"
 import { UserService } from "./user.service"
 
 @Controller("user")

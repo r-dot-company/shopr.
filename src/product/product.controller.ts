@@ -12,6 +12,7 @@ import {
 import { JWTAuthGuard } from "src/auth/guards/jwt-auth.guard"
 import { CreateProductDTO } from "./dto/create-product.dto"
 import { UpdateProductDTO } from "./dto/update-product.dto"
+import { ProductEntity } from "./product.entity"
 import { ProductService } from "./product.service"
 
 @Controller("product")
@@ -20,18 +21,21 @@ export class ProductController {
 
     @Get()
     async getAll() {
-        return await this.productService.findAll()
+        const products = await this.productService.findAll()
+        return products.map((product) => new ProductEntity(product))
     }
 
     @Get(":id")
     async getOne(@Param("id", ParseIntPipe) id: number) {
-        return await this.productService.findById(id)
+        const product = await this.productService.findById(id)
+        return new ProductEntity(product)
     }
 
     @UseGuards(JWTAuthGuard)
     @Post()
     async create(@Body() createProductDTO: CreateProductDTO) {
-        await this.productService.create(createProductDTO)
+        const product = await this.productService.create(createProductDTO)
+        return new ProductEntity(product)
     }
 
     @UseGuards(JWTAuthGuard)
@@ -40,12 +44,14 @@ export class ProductController {
         @Param("id", ParseIntPipe) id: number,
         @Body() updateProductDTO: UpdateProductDTO
     ) {
-        await this.productService.update(id, updateProductDTO)
+        const product = await this.productService.update(id, updateProductDTO)
+        return new ProductEntity(product)
     }
 
     @UseGuards(JWTAuthGuard)
     @Delete(":id")
     async delete(@Param("id", ParseIntPipe) id: number) {
-        await this.productService.delete(id)
+        const product = await this.productService.delete(id)
+        return new ProductEntity(product)
     }
 }
