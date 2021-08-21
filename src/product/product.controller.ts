@@ -29,12 +29,16 @@ export class ProductController {
     @Get(":id")
     async getOne(@Param("id", ParseIntPipe) id: number) {
         const product = await this.productService.findById(id)
+        if (!product) {
+            throw new NotFoundException()
+        }
         return new ProductEntity(product)
     }
 
     @Auth(Role.Admin)
     @Post()
     async create(@Body() createProductDTO: CreateProductDTO) {
+        createProductDTO.helloWorld()
         const product = await this.productService.create(createProductDTO)
         return new ProductEntity(product)
     }
