@@ -22,7 +22,7 @@ export class AddressController {
 
     @Auth()
     @Get()
-    async getAllForUser(@Request() req) {
+    async getAllFromUser(@Request() req) {
         const addresses = await this.addressService.findByUser(req.user)
         return addresses.map((address) => new AddressEntity(address))
     }

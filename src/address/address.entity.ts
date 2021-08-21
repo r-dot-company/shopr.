@@ -15,6 +15,9 @@ export class AddressEntity {
     @Exclude()
     user: User
 
+    @Exclude()
+    userId: string
+
     constructor(partial: Partial<AddressEntity>) {
         Object.assign(this, partial)
     }
