@@ -11,6 +11,8 @@ import {
     Request
 } from "@nestjs/common"
 import { Auth } from "src/auth/auth.decorator"
+import { CartCountEntity } from "./cart-count.entity"
+import { CartProductEntity } from "./cart-product.entity"
 import { CartService } from "./cart.service"
 import { AddProductDTO } from "./dto/add-product.dto"
 
@@ -22,7 +24,7 @@ export class CartController {
     @Get()
     async getCart(@Request() req) {
         const cart = await this.cartService.findByUser(req.user)
-        return cart
+        return cart.map((cartProduct) => new CartProductEntity(cartProduct))
     }
 
     @Auth()
@@ -38,11 +40,12 @@ export class CartController {
         if (productsInCart.length > 0) {
             throw new ConflictException()
         }
-        const cart = await this.cartService.addProduct(
+        await this.cartService.addProduct(
             req.user,
             addProductDTO
         )
-        return cart
+        const count = await this.cartService.countProducts(req.user)
+        return new CartCountEntity(count)
     }
 
     @Auth()
@@ -59,5 +62,7 @@ export class CartController {
             throw new NotFoundException()
         }
         await this.cartService.removeProduct(req.user, id)
+        const count = await this.cartService.countProducts(req.user)
+        return new CartCountEntity(count)
     }
 }

@@ -11,6 +11,9 @@ export class CartService {
         return await this.prisma.productInCart.findMany({
             where: {
                 userId: user.id
+            },
+            include: {
+                product: true
             }
         })
     }
@@ -20,6 +23,14 @@ export class CartService {
             where: {
                 userId: user.id,
                 productId
+            }
+        })
+    }
+
+    async countProducts(user: User) {
+        return await this.prisma.productInCart.count({
+            where: {
+                userId: user.id
             }
         })
     }
