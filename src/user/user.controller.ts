@@ -7,7 +7,6 @@ import {
     Request
 } from "@nestjs/common"
 import { Auth } from "src/auth/auth.decorator"
-import { TakenException } from "src/exceptions/taken.exception"
 import { CreateUserDTO } from "./dto/create-user.dto"
 import { UpdateUserDTO } from "./dto/update-user.dto"
 import { UserEntity } from "./user.entity"
@@ -19,10 +18,6 @@ export class UserController {
 
     @Post()
     async create(@Body() creatUserDTO: CreateUserDTO) {
-        const existingUser = await this.userService.findByEmail(creatUserDTO.email)
-        if (existingUser) {
-            throw new TakenException("Email")
-        }
         const user = await this.userService.create(creatUserDTO)
         return new UserEntity(user)
     }

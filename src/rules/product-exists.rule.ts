@@ -1,5 +1,8 @@
 import { Injectable } from "@nestjs/common"
-import { ValidatorConstraint, ValidatorConstraintInterface } from "class-validator"
+import {
+    ValidatorConstraint,
+    ValidatorConstraintInterface
+} from "class-validator"
 import { ProductService } from "src/product/product.service"
 
 @ValidatorConstraint({
