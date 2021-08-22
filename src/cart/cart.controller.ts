@@ -8,6 +8,7 @@ import {
     Param,
     ParseIntPipe,
     Post,
+    Put,
     Request
 } from "@nestjs/common"
 import { Auth } from "src/auth/auth.decorator"
@@ -15,6 +16,7 @@ import { CartCountEntity } from "./cart-count.entity"
 import { CartProductEntity } from "./cart-product.entity"
 import { CartService } from "./cart.service"
 import { AddProductDTO } from "./dto/add-product.dto"
+import { UpdateProductDTO } from "./dto/update-product.dto"
 
 @Controller("cart")
 export class CartController {
@@ -33,19 +35,40 @@ export class CartController {
         @Request() req,
         @Body() addProductDTO: AddProductDTO
     ) {
-        const productsInCart = await this.cartService.findByUserAndProduct(
+        const cartProduct = await this.cartService.findByUserAndProduct(
             req.user,
             addProductDTO.productId
         )
-        if (productsInCart.length > 0) {
+        if (cartProduct) {
             throw new ConflictException()
         }
-        await this.cartService.addProduct(
+        const count = await this.cartService.addProduct(
             req.user,
             addProductDTO
         )
-        const count = await this.cartService.countProducts(req.user)
         return new CartCountEntity(count)
+    }
+
+    @Auth()
+    @Put(":id")
+    async updateProduct(
+        @Request() req,
+        @Param("id", ParseIntPipe) id: number,
+        @Body() updateProductDTO: UpdateProductDTO
+    ) {
+        const cartProduct = await this.cartService.findByUserAndProduct(
+            req.user,
+            id
+        )
+        if (!cartProduct) {
+            throw new NotFoundException()
+        }
+        const newCartProduct = await this.cartService.updateProduct(
+            req.user,
+            id,
+            updateProductDTO
+        )
+        return new CartProductEntity(newCartProduct)
     }
 
     @Auth()
@@ -54,15 +77,14 @@ export class CartController {
         @Request() req,
         @Param("id", ParseIntPipe) id: number
     ) {
-        const productsInCart = await this.cartService.findByUserAndProduct(
+        const cartProduct = await this.cartService.findByUserAndProduct(
             req.user,
             id
         )
-        if (productsInCart.length === 0) {
+        if (!cartProduct) {
             throw new NotFoundException()
         }
-        await this.cartService.removeProduct(req.user, id)
-        const count = await this.cartService.countProducts(req.user)
+        const count = await this.cartService.removeProduct(req.user, id)
         return new CartCountEntity(count)
     }
 }

@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common"
 import { User } from "@prisma/client"
 import { PrismaService } from "src/prisma/prisma.service"
 import { AddProductDTO } from "./dto/add-product.dto"
+import { UpdateProductDTO } from "./dto/update-product.dto"
 
 @Injectable()
 export class CartService {
@@ -19,12 +20,13 @@ export class CartService {
     }
 
     async findByUserAndProduct(user: User, productId: number) {
-        return this.prisma.productInCart.findMany({
+        const cartProducts = await this.prisma.productInCart.findMany({
             where: {
                 userId: user.id,
                 productId
             }
         })
+        return cartProducts[0]
     }
 
     async countProducts(user: User) {
@@ -36,21 +38,38 @@ export class CartService {
     }
 
     async addProduct(user: User, addProductDTO: AddProductDTO) {
-        return await this.prisma.productInCart.create({
+        await this.prisma.productInCart.create({
             data: {
                 amount: addProductDTO.amount,
                 productId: addProductDTO.productId,
                 userId: user.id
             }
         })
+        return await this.countProducts(user)
+    }
+
+    async updateProduct(
+        user: User,
+        productId: number,
+        updateProductDTO: UpdateProductDTO
+    ) {
+        await this.prisma.productInCart.updateMany({
+            where: {
+                userId: user.id,
+                productId
+            },
+            data: updateProductDTO
+        })
+        return await this.findByUserAndProduct(user, productId)
     }
 
     async removeProduct(user: User, productId: number) {
-        return await this.prisma.productInCart.deleteMany({
+        await this.prisma.productInCart.deleteMany({
             where: {
                 userId: user.id,
                 productId
             }
         })
+        return await this.countProducts(user)
     }
 }
