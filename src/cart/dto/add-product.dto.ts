@@ -1,7 +1,8 @@
 import { IsInt, IsNotEmpty, Max, Min, Validate } from "class-validator"
+import { ProductExistsRule } from "src/rules/product-exists.rule"
 
 export class AddProductDTO {
-    // @Validate(ProductExistsRule)
+    @Validate(ProductExistsRule)
     @IsInt()
     @IsNotEmpty()
     productId: number

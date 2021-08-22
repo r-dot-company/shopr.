@@ -4,11 +4,13 @@ import { AddressModule } from "./address/address.module"
 import { AuthModule } from "./auth/auth.module"
 import { CartModule } from "./cart/cart.module"
 import { ProductModule } from "./product/product.module"
+import { RulesModule } from "./rules/rules.module"
 import { UserModule } from "./user/user.module"
 
 @Module({
     imports: [
         AuthModule,
+        RulesModule,
         ProductModule,
         UserModule,
         AddressModule,
