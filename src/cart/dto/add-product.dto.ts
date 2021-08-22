@@ -1,10 +1,10 @@
-import { IsInt, IsNotEmpty, Max, Min, Validate } from "class-validator"
-import { ProductExistsRule } from "src/rules/product-exists.rule"
+import { IsInt, IsNotEmpty, Max, Min } from "class-validator"
+import { ProductExists } from "src/rules/decorators"
 
 export class AddProductDTO {
-    @Validate(ProductExistsRule)
     @IsInt()
     @IsNotEmpty()
+    @ProductExists()
     productId: number
 
     @IsInt()
