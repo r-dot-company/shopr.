@@ -17,8 +17,4 @@ export class CreateProductDTO {
     @IsPositive()
     @Max(1e9)
     price: number
-
-    helloWorld() {
-        console.info("Hello World")
-    }
 }

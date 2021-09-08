@@ -38,7 +38,6 @@ export class ProductController {
     @Auth(Role.Admin)
     @Post()
     async create(@Body() createProductDTO: CreateProductDTO) {
-        createProductDTO.helloWorld()
         const product = await this.productService.create(createProductDTO)
         return new ProductEntity(product)
     }
