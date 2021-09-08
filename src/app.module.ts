@@ -3,6 +3,7 @@ import { APP_INTERCEPTOR } from "@nestjs/core"
 import { AddressModule } from "./address/address.module"
 import { AuthModule } from "./auth/auth.module"
 import { CartModule } from "./cart/cart.module"
+import { OrderModule } from "./order/order.module"
 import { ProductModule } from "./product/product.module"
 import { RulesModule } from "./rules/rules.module"
 import { UserModule } from "./user/user.module"
@@ -14,7 +15,8 @@ import { UserModule } from "./user/user.module"
         ProductModule,
         UserModule,
         AddressModule,
-        CartModule
+        CartModule,
+        OrderModule
     ],
     providers: [
         {

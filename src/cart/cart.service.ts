@@ -9,7 +9,7 @@ export class CartService {
     constructor(private readonly prisma: PrismaService) {}
 
     async findByUser(user: User) {
-        return await this.prisma.productInCart.findMany({
+        return await this.prisma.cartProduct.findMany({
             where: {
                 userId: user.id
             },
@@ -20,7 +20,7 @@ export class CartService {
     }
 
     async findByUserAndProduct(user: User, productId: number) {
-        const cartProducts = await this.prisma.productInCart.findMany({
+        const cartProducts = await this.prisma.cartProduct.findMany({
             where: {
                 userId: user.id,
                 productId
@@ -30,7 +30,7 @@ export class CartService {
     }
 
     async countProducts(user: User) {
-        return await this.prisma.productInCart.count({
+        return await this.prisma.cartProduct.count({
             where: {
                 userId: user.id
             }
@@ -38,7 +38,7 @@ export class CartService {
     }
 
     async addProduct(user: User, addProductDTO: AddProductDTO) {
-        await this.prisma.productInCart.create({
+        await this.prisma.cartProduct.create({
             data: {
                 amount: addProductDTO.amount,
                 productId: addProductDTO.productId,
@@ -53,7 +53,7 @@ export class CartService {
         productId: number,
         updateProductDTO: UpdateProductDTO
     ) {
-        await this.prisma.productInCart.updateMany({
+        await this.prisma.cartProduct.updateMany({
             where: {
                 userId: user.id,
                 productId
@@ -64,7 +64,7 @@ export class CartService {
     }
 
     async removeProduct(user: User, productId: number) {
-        await this.prisma.productInCart.deleteMany({
+        await this.prisma.cartProduct.deleteMany({
             where: {
                 userId: user.id,
                 productId
