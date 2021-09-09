@@ -1,9 +1,9 @@
 import { OrderStatus } from ".prisma/client"
-import { IsNotEmpty, Validate } from "class-validator"
-import { OneOfRule } from "src/rules/one-of.rule"
+import { IsNotEmpty } from "class-validator"
+import { OneOf } from "src/rules/decorators"
 
 export class UpdateOrderDTO {
-    @Validate(OneOfRule, [Object.values(OrderStatus)])
+    @OneOf(Object.values(OrderStatus))
     @IsNotEmpty()
     status: OrderStatus
 }
