@@ -5,12 +5,14 @@ import { AssetTypeModule } from "./asset-type/asset-type.module"
 import { AuthModule } from "./auth/auth.module"
 import { CartModule } from "./cart/cart.module"
 import { OrderModule } from "./order/order.module"
+import { PrismaModule } from "./prisma/prisma.module"
 import { ProductModule } from "./product/product.module"
 import { RulesModule } from "./rules/rules.module"
 import { UserModule } from "./user/user.module"
 
 @Module({
     imports: [
+        PrismaModule,
         AuthModule,
         RulesModule,
         ProductModule,
