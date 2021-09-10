@@ -8,11 +8,11 @@ datasource db {
 }
 
 model User {
-  id             String   @default(uuid()) @id
-  email          String   @db.VarChar(255) @unique
-  password       String   @db.VarChar(255)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id             String         @default(uuid()) @id
+  email          String         @db.VarChar(255) @unique
+  password       String         @db.VarChar(255)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
   address        Address?
   admin          Admin?
   cartProducts   CartProduct[]
@@ -71,10 +71,17 @@ model Order {
 
 model Asset {
   id        String    @default(uuid()) @id
-  type      AssetType @default(IMAGE)
   filename  String    @db.VarChar(48)
+  type      AssetType @relation(fields: [typeId], references: [key])
+  typeId    String    @db.VarChar(255)
   product   Product?  @relation(fields: [productId], references: [id])
   productId Int?
+}
+
+model AssetType {
+  key      String   @id @db.VarChar(255)
+  mimeType String   @db.VarChar(255)
+  assets   Asset[]
 }
 
 enum OrderStatus {
@@ -84,6 +91,3 @@ enum OrderStatus {
   DONE
 }
 
-enum AssetType {
-  IMAGE
-}

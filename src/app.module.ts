@@ -1,6 +1,7 @@
 import { ClassSerializerInterceptor, Module } from "@nestjs/common"
 import { APP_INTERCEPTOR } from "@nestjs/core"
 import { AddressModule } from "./address/address.module"
+import { AssetTypeModule } from "./asset-type/asset-type.module"
 import { AuthModule } from "./auth/auth.module"
 import { CartModule } from "./cart/cart.module"
 import { OrderModule } from "./order/order.module"
@@ -16,7 +17,8 @@ import { UserModule } from "./user/user.module"
         UserModule,
         AddressModule,
         CartModule,
-        OrderModule
+        OrderModule,
+        AssetTypeModule
     ],
     providers: [
         {

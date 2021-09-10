@@ -5,24 +5,31 @@ import * as bcrypt from "bcrypt"
 const client = new PrismaClient()
 
 async function seedAdmin() {
-    const admin = await client.admin.findMany()
-    if (admin.length === 0) {
-        await client.admin.create({
-            data: {
-                protected: true,
-                user: {
-                    create: {
-                        email: "admin@mail.com",
-                        password: bcrypt.hashSync("admin", 5)
-                    }  
-                }
+    await client.admin.create({
+        data: {
+            protected: true,
+            user: {
+                create: {
+                    email: "admin@mail.com",
+                    password: bcrypt.hashSync("admin", 5)
+                }  
             }
-        })
-    }
+        }
+    })
+}
+
+async function seedAssetType() {
+    await client.assetType.create({
+        data: {
+            key: "image",
+            mimeType: "image/png,image/jpeg"
+        }
+    })
 }
 
 const seed = makeRunnable(async () => {
     await run(seedAdmin, "Admin")
+    await run(seedAssetType, "Asset Type")
 })
 
 seed().then(client.$disconnect.bind(client))
