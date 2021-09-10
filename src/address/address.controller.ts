@@ -11,7 +11,7 @@ import {
     UnauthorizedException
 } from "@nestjs/common"
 import { Auth } from "src/auth/auth.decorator"
-import { AddressEntity } from "./address.entity"
+import { AddressEntity } from "./entities/address.entity"
 import { AddressService } from "./address.service"
 import { CreateAddressDTO } from "./dto/create-address.dto"
 import { UpdateAddressDTO } from "./dto/update-address.dto"

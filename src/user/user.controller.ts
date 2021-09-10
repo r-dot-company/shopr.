@@ -9,7 +9,7 @@ import {
 import { Auth } from "src/auth/auth.decorator"
 import { CreateUserDTO } from "./dto/create-user.dto"
 import { UpdateUserDTO } from "./dto/update-user.dto"
-import { UserEntity } from "./user.entity"
+import { UserEntity } from "./entities/user.entity"
 import { UserService } from "./user.service"
 
 @Controller("user")

@@ -12,7 +12,7 @@ import {
 import { Auth } from "src/auth/auth.decorator"
 import { Role } from "src/role/role.enum"
 import { UpdateOrderDTO } from "./dto/update-order.dto"
-import { OrderEntity } from "./order.entity"
+import { OrderEntity } from "./entities/order.entity"
 import { OrderService } from "./order.service"
 
 @Controller("order")

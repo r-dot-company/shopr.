@@ -12,8 +12,8 @@ import {
     Request
 } from "@nestjs/common"
 import { Auth } from "src/auth/auth.decorator"
-import { CartCountEntity } from "./cart-count.entity"
-import { CartProductEntity } from "./cart-product.entity"
+import { CartCountEntity } from "./entities/cart-count.entity"
+import { CartProductEntity } from "./entities/cart-product.entity"
 import { CartService } from "./cart.service"
 import { AddProductDTO } from "./dto/add-product.dto"
 import { UpdateProductDTO } from "./dto/update-product.dto"

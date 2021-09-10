@@ -1,6 +1,6 @@
 import { Order, OrderStatus, CartProduct, User } from ".prisma/client"
 import { Exclude } from "class-transformer"
-import { CartProductEntity } from "src/cart/cart-product.entity"
+import { CartProductEntity } from "src/cart/entities/cart-product.entity"
 
 export class OrderEntity {
     id: string

@@ -13,7 +13,7 @@ import { Auth } from "src/auth/auth.decorator"
 import { Role } from "src/role/role.enum"
 import { CreateProductDTO } from "./dto/create-product.dto"
 import { UpdateProductDTO } from "./dto/update-product.dto"
-import { ProductEntity } from "./product.entity"
+import { ProductEntity } from "./entities/product.entity"
 import { ProductService } from "./product.service"
 
 @Controller("product")

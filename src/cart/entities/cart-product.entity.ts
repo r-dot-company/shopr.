@@ -1,6 +1,6 @@
 import { Product, User, Order } from "@prisma/client"
 import { Exclude } from "class-transformer"
-import { ProductEntity } from "src/product/product.entity"
+import { ProductEntity } from "src/product/entities/product.entity"
 import { Override } from "src/utils"
 
 export class CartProductEntity {
