@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client"
+import { Prisma, Access } from "@prisma/client"
 import { Exclude } from "class-transformer"
 import { Override } from "src/utils"
 
@@ -8,6 +8,8 @@ export class ProductEntity {
     name: string
 
     price: number
+
+    access: Access
 
     @Exclude()
     createdAt: Date
