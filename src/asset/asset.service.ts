@@ -30,6 +30,12 @@ export class AssetService {
         })
     }
 
+    async findById(id: string) {
+        return this.prisma.asset.findUnique({
+            where: { id }
+        })
+    }
+
     async create(createAssetDTO: CreateAssetDTO, file: Express.Multer.File) {
         const assetType = await this.assetTypeService.findByKey(createAssetDTO.typeKey)
         const isValidFile = this.validateFile(file, assetType)
@@ -44,6 +50,14 @@ export class AssetService {
                 productId: parseInt(createAssetDTO.productId)
             }
         })
+    }
+
+    async delete(id: string) {
+        const asset = await this.findById(id)
+        await this.storage.delete(asset.filename)
+        return await this.prisma.asset.delete({
+            where: { id }
+        }) 
     }
 
     private validateFile(file: Express.Multer.File, assetType: AssetType) {

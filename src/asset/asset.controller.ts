@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Post, UploadedFile, UseInterceptors } from "@nestjs/common"
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    UploadedFile,
+    UseInterceptors,
+    NotFoundException
+} from "@nestjs/common"
 import { FileInterceptor } from "@nestjs/platform-express"
 import { Auth } from "src/auth/auth.decorator"
 import { Role } from "src/role/role.enum"
@@ -25,6 +35,17 @@ export class AssetController {
         @Body() createAssetDTO: CreateAssetDTO
     ) {
         const asset = await this.assetService.create(createAssetDTO, file)
+        return new AssetEntity(asset)
+    }
+
+    @Auth(Role.Admin)
+    @Delete(":id")
+    async delete(@Param("id") id: string) {
+        const asset = await this.assetService.findById(id)
+        if (!asset) {
+            throw new NotFoundException()
+        }
+        await this.assetService.delete(id)
         return new AssetEntity(asset)
     }
 }

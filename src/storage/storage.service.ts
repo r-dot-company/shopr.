@@ -14,12 +14,21 @@ export class StorageService {
             throw new Error(`No extension found for mimetype ${file.mimetype}`)
         }
         const filename = this.generateFilename(ext)
-        const newPath = path.join(this.STORAGE_DIR, filename)
+        const newPath = this.getPath(filename)
         await fs.promises.writeFile(newPath, file.buffer)
         return filename
     }
 
+    async delete(filename: string) {
+        const filepath = this.getPath(filename)
+        await fs.promises.unlink(filepath)
+    }
+
     private generateFilename(ext: string) {
         return `${uuid()}.${ext}`
+    }
+
+    private getPath(filename: string) {
+        return path.join(this.STORAGE_DIR, filename)
     }
 }
