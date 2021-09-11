@@ -1,14 +1,17 @@
-import { Prisma, Access } from "@prisma/client"
-import { Exclude } from "class-transformer"
-import { Override } from "src/utils"
+import { Prisma } from "@prisma/client"
+import { Access } from "@prisma/client"
+import { Exclude, Expose, Transform } from "class-transformer"
+import { Role } from "src/role/role.enum"
 
 export class ProductEntity {
     id: number
 
     name: string
 
-    price: number
+    @Transform(({ value }) => value.toNumber())
+    price: Prisma.Decimal
 
+    @Expose({ groups: [Role.Admin] })
     access: Access
 
     @Exclude()
@@ -17,15 +20,7 @@ export class ProductEntity {
     @Exclude()
     updatedAt: Date
 
-    constructor(partial: Partial<Override<ProductEntity, "price", Prisma.Decimal>>) {
-        Object.assign(this, {
-            ...partial,
-            price: partial.price?.toNumber()
-        })
+    constructor(partial: Partial<ProductEntity>) {
+        Object.assign(this, partial)
     }
-}
-
-export class ProductPublicEntity extends ProductEntity {
-    @Exclude()
-    access: Access = Access.PRIVATE
 }

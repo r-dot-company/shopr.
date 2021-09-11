@@ -14,7 +14,7 @@ import { Auth } from "src/auth/auth.decorator"
 import { Role } from "src/role/role.enum"
 import { CreateProductDTO } from "./dto/create-product.dto"
 import { UpdateProductDTO } from "./dto/update-product.dto"
-import { ProductEntity, ProductPublicEntity } from "./entities/product.entity"
+import { ProductEntity } from "./entities/product.entity"
 import { ProductService } from "./product.service"
 
 @Controller("product")
@@ -24,7 +24,7 @@ export class ProductController {
     @Get()
     async getAllPublic() {
         const products = await this.productService.findAllPublic()
-        return products.map((product) => new ProductPublicEntity(product))
+        return products.map((product) => new ProductEntity(product))
     }
 
     @Auth(Role.Admin)
@@ -40,7 +40,7 @@ export class ProductController {
         if (!product || product.access === Access.PRIVATE) {
             throw new NotFoundException()
         }
-        return new ProductPublicEntity(product)
+        return new ProductEntity(product)
     }
 
     @Auth(Role.Admin)

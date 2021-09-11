@@ -1,5 +1,5 @@
-import { User } from "@prisma/client"
 import { Exclude } from "class-transformer"
+import { UserEntity } from "src/user/entities/user.entity"
 
 export class AddressEntity {
     id: string
@@ -13,7 +13,7 @@ export class AddressEntity {
     zip: string
 
     @Exclude()
-    user: User
+    user: Partial<UserEntity>
 
     @Exclude()
     userId: string

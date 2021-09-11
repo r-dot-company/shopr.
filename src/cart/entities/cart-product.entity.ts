@@ -1,7 +1,7 @@
-import { Product, User, Order } from "@prisma/client"
 import { Exclude } from "class-transformer"
+import { OrderEntity } from "src/order/entities/order.entity"
 import { ProductEntity } from "src/product/entities/product.entity"
-import { Override } from "src/utils"
+import { UserEntity } from "src/user/entities/user.entity"
 
 export class CartProductEntity {
     @Exclude()
@@ -9,24 +9,24 @@ export class CartProductEntity {
 
     amount: number
 
-    product: ProductEntity
+    product: Partial<ProductEntity>
 
     @Exclude()
     productId: number
 
     @Exclude()
-    user: User
+    user: Partial<UserEntity>
 
     @Exclude()
     userId: string
 
     @Exclude()
-    order: Order
+    order: Partial<OrderEntity>
 
     @Exclude()
     orderId: string
 
-    constructor(partial: Partial<Override<CartProductEntity, "product", Product>>) {
+    constructor(partial: Partial<CartProductEntity>) {
         Object.assign(this, {
             ...partial,
             product: partial.product && new ProductEntity(partial.product)
