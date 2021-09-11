@@ -14,6 +14,9 @@ export class EmailAvailableRule implements ValidatorConstraintInterface {
     constructor(private readonly userService: UserService) {}
 
     async validate(email: string) {
+        if (!email) {
+            return false
+        }
         const user = await this.userService.findByEmail(email)
         return !user
     }

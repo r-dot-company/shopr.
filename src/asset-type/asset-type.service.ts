@@ -1,3 +1,4 @@
+import { AssetType } from ".prisma/client"
 import { Injectable } from "@nestjs/common"
 import { PrismaService } from "src/prisma/prisma.service"
 import { CreateAssetTypeDTO } from "./dto/create-asset-type.dto"
@@ -34,5 +35,9 @@ export class AssetTypeService {
         return await this.prisma.assetType.delete({
             where: { key }
         })
+    }
+
+    getMimeTypes(assetType: AssetType) {
+        return assetType.mimeType.split(",")
     }
 }

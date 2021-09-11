@@ -5,7 +5,7 @@ export class AssetTypeEntity {
 
     mimeType: string
 
-    constructor(assetType: AssetType) {
+    constructor(assetType: Partial<AssetType>) {
         Object.assign(this, assetType)
     }
 }

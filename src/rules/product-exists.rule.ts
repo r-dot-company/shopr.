@@ -13,7 +13,13 @@ import { ProductService } from "src/product/product.service"
 export class ProductExistsRule implements ValidatorConstraintInterface {
     constructor(private readonly productService: ProductService) {}
 
-    async validate(id: number) {
+    async validate(id: string | number) {
+        if (typeof id === "string") {
+            id = parseInt(id)
+        }
+        if (!id) {
+            return false
+        }
         const product = await this.productService.findById(id)
         return !!product
     }

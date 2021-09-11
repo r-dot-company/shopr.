@@ -4,6 +4,7 @@ import { AssetTypeService } from "./asset-type.service"
 
 @Module({
     controllers: [AssetTypeController],
-    providers: [AssetTypeService]
+    providers: [AssetTypeService],
+    exports: [AssetTypeService]
 })
 export class AssetTypeModule {}
