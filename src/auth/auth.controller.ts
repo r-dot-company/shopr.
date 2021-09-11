@@ -1,5 +1,7 @@
+import { User } from ".prisma/client"
 import { Controller, Get, Post, Request, UseGuards } from "@nestjs/common"
 import { UserEntity } from "src/user/entities/user.entity"
+import { AuthUser } from "./auth-user.decorator"
 import { AuthService } from "./auth.service"
 import { JWTAuthGuard } from "./guards/jwt-auth.guard"
 import { LocalAuthGuard } from "./guards/local-auth.guard"
@@ -10,13 +12,13 @@ export class AuthController {
 
     @UseGuards(LocalAuthGuard)
     @Post("/login")
-    async login(@Request() req) {
-        return this.authService.generateToken(req.user)
+    async login(@AuthUser() user: User) {
+        return this.authService.generateToken(user)
     }
 
     @UseGuards(JWTAuthGuard)
     @Get("/profile")
-    async profile(@Request() req) {
-        return new UserEntity(req.user)
+    async profile(@AuthUser() user: User) {
+        return new UserEntity(user)
     }
 }

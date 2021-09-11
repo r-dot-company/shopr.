@@ -7,14 +7,15 @@ import {
     Param,
     Post,
     Put,
-    Request,
     UnauthorizedException
 } from "@nestjs/common"
+import { User } from ".prisma/client"
 import { Auth } from "src/auth/auth.decorator"
 import { AddressEntity } from "./entities/address.entity"
 import { AddressService } from "./address.service"
 import { CreateAddressDTO } from "./dto/create-address.dto"
 import { UpdateAddressDTO } from "./dto/update-address.dto"
+import { AuthUser } from "src/auth/auth-user.decorator"
 
 @Controller("address")
 export class AddressController {
@@ -22,22 +23,22 @@ export class AddressController {
 
     @Auth()
     @Get()
-    async getAllFromUser(@Request() req) {
-        const addresses = await this.addressService.findByUser(req.user)
+    async getAllFromUser(@AuthUser() user: User) {
+        const addresses = await this.addressService.findByUser(user)
         return addresses.map((address) => new AddressEntity(address))
     }
 
     @Auth()
     @Post()
-    async create(@Request() req, @Body() createAddressDTO: CreateAddressDTO) {
-        const address = await this.addressService.create(req.user, createAddressDTO)
+    async create(@AuthUser() user: User, @Body() createAddressDTO: CreateAddressDTO) {
+        const address = await this.addressService.create(user, createAddressDTO)
         return new AddressEntity(address)
     }
 
     @Auth()
     @Put(":id")
     async update(
-        @Request() req,
+        @AuthUser() user: User,
         @Param("id") id: string,
         @Body() updateAddressDTO: UpdateAddressDTO
     ) {
@@ -45,7 +46,7 @@ export class AddressController {
         if (!address) {
             throw new NotFoundException()
         }
-        if (!address.userId === req.user.id) {
+        if (address.userId !== user.id) {
             throw new UnauthorizedException()
         }
         const newAddress = await this.addressService.update(id, updateAddressDTO)
@@ -54,12 +55,12 @@ export class AddressController {
 
     @Auth()
     @Delete(":id")
-    async delete(@Request() req, @Param("id") id: string) {
+    async delete(@AuthUser() user: User, @Param("id") id: string) {
         const address = await this.addressService.findById(id)
         if (!address) {
             throw new NotFoundException()
         }
-        if (!address.userId === req.user.id) {
+        if (address.userId !== user.id) {
             throw new UnauthorizedException()
         }
         await this.addressService.delete(id)

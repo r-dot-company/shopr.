@@ -1,3 +1,4 @@
+import { User } from ".prisma/client"
 import {
     Body,
     Controller,
@@ -6,6 +7,7 @@ import {
     Put,
     Request
 } from "@nestjs/common"
+import { AuthUser } from "src/auth/auth-user.decorator"
 import { Auth } from "src/auth/auth.decorator"
 import { CreateUserDTO } from "./dto/create-user.dto"
 import { UpdateUserDTO } from "./dto/update-user.dto"
@@ -24,15 +26,15 @@ export class UserController {
 
     @Auth()
     @Put()
-    async update(@Request() req, @Body() updateUserDTO: UpdateUserDTO) {
-        const user = await this.userService.update(req.user.id, updateUserDTO)
-        return new UserEntity(user)
+    async update(@AuthUser() user: User, @Body() updateUserDTO: UpdateUserDTO) {
+        const newUser = await this.userService.update(user.id, updateUserDTO)
+        return new UserEntity(newUser)
     }
 
     @Auth()
     @Delete()
-    async delete(@Request() req) {
-        const user = await this.userService.delete(req.user.id)
+    async delete(@AuthUser() user: User) {
+        await this.userService.delete(user.id)
         return new UserEntity(user)
     }
 }

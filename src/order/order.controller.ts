@@ -9,6 +9,8 @@ import {
     Put,
     Request,
 } from "@nestjs/common"
+import { User } from ".prisma/client"
+import { AuthUser } from "src/auth/auth-user.decorator"
 import { Auth } from "src/auth/auth.decorator"
 import { Role } from "src/role/role.enum"
 import { UpdateOrderDTO } from "./dto/update-order.dto"
@@ -21,16 +23,16 @@ export class OrderController {
 
     @Auth()
     @Get()
-    async getOrders(@Request() req) {
-        const orders = await this.orderService.findByUser(req.user)
+    async getOrders(@AuthUser() user: User) {
+        const orders = await this.orderService.findByUser(user)
         return orders.map((order) => new OrderEntity(order))
     }
 
     @Auth()
     @Get(":id")
-    async getOrder(@Request() req, @Param("id") id: string) {
+    async getOrder(@AuthUser() user: User, @Param("id") id: string) {
         const order = await this.orderService.findById(id)
-        if (!order || order.userId !== req.user.id) {
+        if (!order || order.userId !== user.id) {
             throw new NotFoundException()
         }
         return new OrderEntity(order)
@@ -38,8 +40,8 @@ export class OrderController {
 
     @Auth()
     @Post("/submit")
-    async submitOrder(@Request() req) {
-        const order = await this.orderService.submit(req.user)
+    async submitOrder(@AuthUser() user: User) {
+        const order = await this.orderService.submit(user)
         if (!order) {
             throw new ConflictException()
         }
@@ -49,12 +51,12 @@ export class OrderController {
     @Auth(Role.Admin)
     @Put(":id")
     async updateOrder(
-        @Request() req,
+        @AuthUser() user: User,
         @Param("id") id: string,
         @Body() updateOrderDTO: UpdateOrderDTO
     ) {
         const order = await this.orderService.findById(id)
-        if (!order || order.userId !== req.user.id) {
+        if (!order || order.userId !== user.id) {
             throw new NotFoundException()
         }
         const newOrder = await this.orderService.update(id, updateOrderDTO)
