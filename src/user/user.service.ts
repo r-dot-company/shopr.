@@ -11,6 +11,12 @@ export class UserService {
         private readonly cryptoService: CryptoService
     ) {}
 
+    async getAll() {
+        return await this.prisma.user.findMany({
+            include: { admin: true }
+        })
+    }
+
     async findById(id: string) {
         return await this.prisma.user.findUnique({
             where: { id },

@@ -7,6 +7,7 @@ import { AssetTypeExistsRule } from "./asset-type-exists.rule"
 import { EmailAvailableRule } from "./email-available.rule"
 import { OneOfRule } from "./one-of.rule"
 import { ProductExistsRule } from "./product-exists.rule"
+import { UserExistsRule } from "./user-exists.rule"
 
 function makeValidationDecorator({ validator, name }: {
     validator: new (...args: any[]) => ValidatorConstraintInterface,
@@ -38,6 +39,11 @@ export const EmailAvailable = makeValidationDecorator({
 export const AssetTypeExists = makeValidationDecorator({
     name: "AssetTypeExists",
     validator: AssetTypeExistsRule
+})
+
+export const UserExists = makeValidationDecorator({
+    name: "UserExists",
+    validator: UserExistsRule
 })
 
 export function OneOf<T>(options: T[], validationOptions?: ValidationOptions) {

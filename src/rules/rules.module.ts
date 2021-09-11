@@ -5,9 +5,19 @@ import { UserModule } from "src/user/user.module"
 import { AssetTypeExistsRule } from "./asset-type-exists.rule"
 import { EmailAvailableRule } from "./email-available.rule"
 import { ProductExistsRule } from "./product-exists.rule"
+import { UserExistsRule } from "./user-exists.rule"
 
 @Module({
-    imports: [ProductModule, UserModule, AssetTypeModule],
-    providers: [ProductExistsRule, EmailAvailableRule, AssetTypeExistsRule]
+    imports: [
+        ProductModule,
+        UserModule,
+        AssetTypeModule
+    ],
+    providers: [
+        ProductExistsRule,
+        EmailAvailableRule,
+        AssetTypeExistsRule,
+        UserExistsRule
+    ]
 })
 export class RulesModule {}

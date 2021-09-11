@@ -1,5 +1,7 @@
 import { User } from ".prisma/client"
-import { Exclude } from "class-transformer"
+import { Exclude, Expose, Transform, Type } from "class-transformer"
+import { AdminEntity } from "src/admin/entities/admin.entity"
+import { Role } from "src/role/role.enum"
 
 export class UserEntity implements User {
     id: string
@@ -9,8 +11,10 @@ export class UserEntity implements User {
     @Exclude()
     password: string
     
-    @Exclude()
-    admin: any
+    @Expose({ groups: [Role.Admin] })
+    @Type(() => AdminEntity)
+    @Transform(({ value }) => !!value)
+    admin: Partial<AdminEntity>
 
     @Exclude()
     createdAt: Date
