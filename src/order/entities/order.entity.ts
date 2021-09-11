@@ -1,5 +1,5 @@
 import { OrderStatus } from ".prisma/client"
-import { Exclude } from "class-transformer"
+import { Exclude, Type } from "class-transformer"
 import { CartProductEntity } from "src/cart/entities/cart-product.entity"
 import { UserEntity } from "src/user/entities/user.entity"
 
@@ -14,6 +14,7 @@ export class OrderEntity {
     @Exclude()
     userId: string
 
+    @Type(() => CartProductEntity)
     products: Partial<CartProductEntity>[]
 
     @Exclude()
@@ -22,10 +23,7 @@ export class OrderEntity {
     @Exclude()
     updateAt: Date
 
-    constructor(order: Partial<OrderEntity>) {
-        Object.assign(this, {
-            ...order,
-            products: order.products?.map((product) => new CartProductEntity(product))
-        })
+    constructor(partial: Partial<OrderEntity>) {
+        Object.assign(this, partial)
     }
 }

@@ -1,4 +1,4 @@
-import { Exclude } from "class-transformer"
+import { Exclude, Type } from "class-transformer"
 import { OrderEntity } from "src/order/entities/order.entity"
 import { ProductEntity } from "src/product/entities/product.entity"
 import { UserEntity } from "src/user/entities/user.entity"
@@ -9,6 +9,7 @@ export class CartProductEntity {
 
     amount: number
 
+    @Type(() => ProductEntity)
     product: Partial<ProductEntity>
 
     @Exclude()
@@ -27,9 +28,6 @@ export class CartProductEntity {
     orderId: string
 
     constructor(partial: Partial<CartProductEntity>) {
-        Object.assign(this, {
-            ...partial,
-            product: partial.product && new ProductEntity(partial.product)
-        })
+        Object.assign(this, partial)
     }
 }

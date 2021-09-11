@@ -1,4 +1,4 @@
-import { Exclude } from "class-transformer"
+import { Exclude, Type } from "class-transformer"
 import { AssetTypeEntity } from "src/asset-type/entities/asset-type.entity"
 import { ProductEntity } from "src/product/entities/product.entity"
 
@@ -7,21 +7,19 @@ export class AssetEntity {
 
     filename: string
 
+    @Type(() => AssetTypeEntity)
     type: Partial<AssetTypeEntity>
 
     @Exclude()
     typeKey: string
 
+    @Type(() => ProductEntity)
     product: Partial<ProductEntity>
 
     @Exclude()
     productId: number
 
     constructor(partial: Partial<AssetEntity>) {
-        Object.assign(this, {
-            ...partial,
-            type: partial.type && new AssetTypeEntity(partial.type),
-            product: partial.product && new ProductEntity(partial.product)
-        })
+        Object.assign(this, partial)
     }
 }
