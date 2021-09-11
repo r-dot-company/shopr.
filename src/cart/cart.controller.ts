@@ -20,17 +20,16 @@ import { UpdateProductDTO } from "./dto/update-product.dto"
 import { AuthUser } from "src/auth/auth-user.decorator"
 
 @Controller("cart")
+@Auth()
 export class CartController {
     constructor(private readonly cartService: CartService) {}
-    
-    @Auth()
+
     @Get()
     async getCart(@AuthUser() user: User) {
         const cart = await this.cartService.findByUser(user)
         return cart.map((cartProduct) => new CartProductEntity(cartProduct))
     }
 
-    @Auth()
     @Post()
     async addProduct(
         @AuthUser() user: User,
@@ -47,7 +46,6 @@ export class CartController {
         return new CartCountEntity(count)
     }
 
-    @Auth()
     @Put(":id")
     async updateProduct(
         @AuthUser() user: User,
@@ -62,7 +60,6 @@ export class CartController {
         return new CartProductEntity(newCartProduct)
     }
 
-    @Auth()
     @Delete(":id")
     async removeProduct(
         @AuthUser() user: User,

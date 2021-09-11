@@ -18,17 +18,16 @@ import { CreateAssetDTO } from "./dto/create-asset.dto"
 import { AssetEntity } from "./entities/asset.entity"
 
 @Controller("asset")
+@Auth(Role.Admin)
 export class AssetController {
     constructor(private assetService: AssetService) {}
-    
-    @Auth(Role.Admin)
+
     @Get()
     async getAll() {
         const assets = await this.assetService.getAll()
         return assets.map((asset) => new AssetEntity(asset))
     }
 
-    @Auth(Role.Admin)
     @UseInterceptors(FileInterceptor("file"))
     @Post()
     async create(
@@ -42,7 +41,6 @@ export class AssetController {
         return new AssetEntity(asset)
     }
 
-    @Auth(Role.Admin)
     @Delete(":id")
     async delete(@Param("id") id: string) {
         const asset = await this.assetService.findById(id)

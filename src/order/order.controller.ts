@@ -17,17 +17,16 @@ import { OrderEntity } from "./entities/order.entity"
 import { OrderService } from "./order.service"
 
 @Controller("order")
+@Auth()
 export class OrderController {
     constructor(private orderService: OrderService) {}
 
-    @Auth()
     @Get()
     async getOrders(@AuthUser() user: User) {
         const orders = await this.orderService.findByUser(user)
         return orders.map((order) => new OrderEntity(order))
     }
 
-    @Auth()
     @Get(":id")
     async getOrder(@AuthUser() user: User, @Param("id") id: string) {
         const order = await this.orderService.findById(id)
@@ -37,7 +36,6 @@ export class OrderController {
         return new OrderEntity(order)
     }
 
-    @Auth()
     @Post("/submit")
     async submitOrder(@AuthUser() user: User) {
         const order = await this.orderService.submit(user)

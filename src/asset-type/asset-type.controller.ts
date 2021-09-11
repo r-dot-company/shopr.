@@ -17,17 +17,16 @@ import { UpdateAssetTypeDTO } from "./dto/update-asset-type.dto"
 import { AssetTypeEntity } from "./entities/asset-type.entity"
 
 @Controller("asset-type")
+@Auth(Role.Admin)
 export class AssetTypeController {
     constructor(private assetTypeService: AssetTypeService) {}
 
-    @Auth(Role.Admin)
     @Get()
     async getAll() {
         const assetTypes = await this.assetTypeService.getAll()
         return assetTypes.map((assetType) => new AssetTypeEntity(assetType))
     }
 
-    @Auth(Role.Admin)
     @Post()
     async create(@Body() createAssetTypeDTO: CreateAssetTypeDTO) {
         const existingAssetType = await this.assetTypeService.findByKey(
@@ -40,7 +39,6 @@ export class AssetTypeController {
         return new AssetTypeEntity(assetType)
     }
 
-    @Auth(Role.Admin)
     @Put(":key")
     async update(
         @Param("key") key: string,
@@ -54,7 +52,6 @@ export class AssetTypeController {
         return new AssetTypeEntity(newAssetType)
     }
 
-    @Auth(Role.Admin)
     @Delete(":key")
     async delete(@Param("key") key: string) {
         const assetType = await this.assetTypeService.findByKey(key)

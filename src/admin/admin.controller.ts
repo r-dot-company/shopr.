@@ -3,11 +3,11 @@ import {
     ConflictException,
     Controller,
     Delete,
+    ForbiddenException,
     Get,
     NotFoundException,
     Param,
-    Post,
-    UnauthorizedException
+    Post
 } from "@nestjs/common"
 import { Auth } from "src/auth/auth.decorator"
 import { Role } from "src/role/role.enum"
@@ -52,7 +52,7 @@ export class AdminController {
             throw new NotFoundException()
         }
         if (admin.protected) {
-            throw new UnauthorizedException()
+            throw new ForbiddenException()
         }
         await this.adminService.delete(id)
         return new AdminEntity(admin)

@@ -18,24 +18,22 @@ import { UpdateAddressDTO } from "./dto/update-address.dto"
 import { AuthUser } from "src/auth/auth-user.decorator"
 
 @Controller("address")
+@Auth()
 export class AddressController {
     constructor(private readonly addressService: AddressService) {}
 
-    @Auth()
     @Get()
     async getAllFromUser(@AuthUser() user: User) {
         const addresses = await this.addressService.findByUser(user)
         return addresses.map((address) => new AddressEntity(address))
     }
 
-    @Auth()
     @Post()
     async create(@AuthUser() user: User, @Body() createAddressDTO: CreateAddressDTO) {
         const address = await this.addressService.create(user, createAddressDTO)
         return new AddressEntity(address)
     }
 
-    @Auth()
     @Put(":id")
     async update(
         @AuthUser() user: User,
@@ -53,7 +51,6 @@ export class AddressController {
         return new AddressEntity(newAddress)
     }
 
-    @Auth()
     @Delete(":id")
     async delete(@AuthUser() user: User, @Param("id") id: string) {
         const address = await this.addressService.findById(id)
