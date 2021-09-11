@@ -1,9 +1,9 @@
-import { OrderStatus } from ".prisma/client"
+import { Order, OrderStatus } from ".prisma/client"
 import { Exclude, Type } from "class-transformer"
 import { CartProductEntity } from "src/cart/entities/cart-product.entity"
 import { UserEntity } from "src/user/entities/user.entity"
 
-export class OrderEntity {
+export class OrderEntity implements Order {
     id: string
 
     status: OrderStatus
@@ -18,10 +18,10 @@ export class OrderEntity {
     products: Partial<CartProductEntity>[]
 
     @Exclude()
-    createAt: Date
+    createdAt: Date
 
     @Exclude()
-    updateAt: Date
+    updatedAt: Date
 
     constructor(partial: Partial<OrderEntity>) {
         Object.assign(this, partial)

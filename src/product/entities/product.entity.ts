@@ -1,9 +1,9 @@
-import { Prisma } from "@prisma/client"
+import { Prisma, Product } from "@prisma/client"
 import { Access } from "@prisma/client"
 import { Exclude, Expose, Transform } from "class-transformer"
 import { Role } from "src/role/role.enum"
 
-export class ProductEntity {
+export class ProductEntity implements Product {
     id: number
 
     name: string

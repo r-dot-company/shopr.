@@ -1,7 +1,8 @@
+import { Address } from ".prisma/client"
 import { Exclude } from "class-transformer"
 import { UserEntity } from "src/user/entities/user.entity"
 
-export class AddressEntity {
+export class AddressEntity implements Address {
     id: string
 
     country: string

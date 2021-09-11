@@ -1,9 +1,10 @@
+import { CartProduct } from ".prisma/client"
 import { Exclude, Type } from "class-transformer"
 import { OrderEntity } from "src/order/entities/order.entity"
 import { ProductEntity } from "src/product/entities/product.entity"
 import { UserEntity } from "src/user/entities/user.entity"
 
-export class CartProductEntity {
+export class CartProductEntity implements CartProduct {
     @Exclude()
     id: string
 
