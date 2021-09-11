@@ -7,7 +7,8 @@ import {
     Post,
     UploadedFile,
     UseInterceptors,
-    NotFoundException
+    NotFoundException,
+    BadRequestException
 } from "@nestjs/common"
 import { FileInterceptor } from "@nestjs/platform-express"
 import { Auth } from "src/auth/auth.decorator"
@@ -35,6 +36,9 @@ export class AssetController {
         @Body() createAssetDTO: CreateAssetDTO
     ) {
         const asset = await this.assetService.create(createAssetDTO, file)
+        if (!asset) {
+            throw new BadRequestException()
+        }
         return new AssetEntity(asset)
     }
 

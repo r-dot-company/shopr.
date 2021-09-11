@@ -24,6 +24,22 @@ export class StorageService {
         await fs.promises.unlink(filepath)
     }
 
+    exists(filename: string) {
+        const filepath = this.getPath(filename)
+        return fs.promises.access(filepath, fs.constants.F_OK)
+            .then(() => true)
+            .catch(() => false)
+    }
+
+    getFileStream(filename: string) {
+        const filepath = this.getPath(filename)
+        return fs.createReadStream(filepath)
+    }
+
+    getMimeType(filename: string) {
+        return mime.getType(filename)
+    }
+
     private generateFilename(ext: string) {
         return `${uuid()}.${ext}`
     }
