@@ -24,3 +24,8 @@ export class ProductEntity {
         })
     }
 }
+
+export class ProductPublicEntity extends ProductEntity {
+    @Exclude()
+    access: Access = Access.PRIVATE
+}

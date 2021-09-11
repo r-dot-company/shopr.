@@ -4,8 +4,7 @@ import {
     Controller,
     Delete,
     Post,
-    Put,
-    Request
+    Put
 } from "@nestjs/common"
 import { AuthUser } from "src/auth/auth-user.decorator"
 import { Auth } from "src/auth/auth.decorator"

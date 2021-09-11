@@ -6,8 +6,7 @@ import {
     NotFoundException,
     Param,
     Post,
-    Put,
-    Request,
+    Put
 } from "@nestjs/common"
 import { User } from ".prisma/client"
 import { AuthUser } from "src/auth/auth-user.decorator"

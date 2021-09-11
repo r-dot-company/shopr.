@@ -1,3 +1,4 @@
+import { Access } from ".prisma/client"
 import { Injectable } from "@nestjs/common"
 import { PrismaService } from "src/prisma/prisma.service"
 import { CreateProductDTO } from "./dto/create-product.dto"
@@ -6,6 +7,14 @@ import { UpdateProductDTO } from "./dto/update-product.dto"
 @Injectable()
 export class ProductService {
     constructor(private readonly prisma: PrismaService) {}
+
+    async findAllPublic() {
+        return await this.prisma.product.findMany({
+            where: {
+                access: Access.PUBLIC
+            }
+        })
+    }
 
     async findAll() {
         return await this.prisma.product.findMany()
