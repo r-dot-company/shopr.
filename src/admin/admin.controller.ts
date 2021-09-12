@@ -7,9 +7,11 @@ import {
     Get,
     NotFoundException,
     Param,
-    Post
+    Post,
+    Query
 } from "@nestjs/common"
 import { Auth } from "src/auth/auth.decorator"
+import { PaginationDTO } from "src/pagination/dto/pagination.dto"
 import { Role } from "src/role/role.enum"
 import { AdminService } from "./admin.service"
 import { CreateAdminDTO } from "./dto/create-admin.dto"
@@ -21,8 +23,8 @@ export class AdminController {
     constructor(private adminService: AdminService) {}
 
     @Get()
-    async getAll() {
-        const admins = await this.adminService.getAll()
+    async getAll(@Query() query: PaginationDTO) {
+        const admins = await this.adminService.getAll(query)
         return admins.map((admin) => new AdminEntity(admin))
     }
 

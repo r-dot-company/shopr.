@@ -1,15 +1,19 @@
 import { AssetType } from ".prisma/client"
 import { Injectable } from "@nestjs/common"
+import { PaginationDTO } from "src/pagination/dto/pagination.dto"
+import { PaginationService } from "src/pagination/pagination.service"
 import { PrismaService } from "src/prisma/prisma.service"
 import { CreateAssetTypeDTO } from "./dto/create-asset-type.dto"
 import { UpdateAssetTypeDTO } from "./dto/update-asset-type.dto"
 
 @Injectable()
 export class AssetTypeService {
-    constructor(private prisma: PrismaService) {}
+    constructor(private prisma: PrismaService, private paginationService: PaginationService) {}
 
-    async getAll() {
-        return this.prisma.assetType.findMany()
+    async getAll(query?: PaginationDTO) {
+        return this.prisma.assetType.findMany({
+            ...this.paginationService.paginate(query)
+        })
     }
 
     async findByKey(key: string) {

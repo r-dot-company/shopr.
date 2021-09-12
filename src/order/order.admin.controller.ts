@@ -4,7 +4,8 @@ import {
     Get,
     NotFoundException,
     Param,
-    Put
+    Put,
+    Query
 } from "@nestjs/common"
 import { User } from ".prisma/client"
 import { AuthUser } from "src/auth/auth-user.decorator"
@@ -13,6 +14,7 @@ import { Role } from "src/role/role.enum"
 import { UpdateOrderDTO } from "./dto/update-order.dto"
 import { OrderEntity } from "./entities/order.entity"
 import { OrderService } from "./order.service"
+import { PaginationDTO } from "src/pagination/dto/pagination.dto"
 
 @Controller()
 @Auth(Role.Admin)
@@ -20,8 +22,8 @@ export class OrderAdminController {
     constructor(private orderService: OrderService) {}
 
     @Get()
-    async getAll() {
-        const orders = await this.orderService.getAll()
+    async getAll(@Query() query: PaginationDTO) {
+        const orders = await this.orderService.getAll(query)
         return orders.map((order) => new OrderEntity(order))
     }
 

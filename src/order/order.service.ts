@@ -1,5 +1,7 @@
 import { CartProduct, Prisma, Product, User } from ".prisma/client"
 import { Injectable } from "@nestjs/common"
+import { PaginationDTO } from "src/pagination/dto/pagination.dto"
+import { PaginationService } from "src/pagination/pagination.service"
 import { PrismaService } from "src/prisma/prisma.service"
 import { UpdateOrderDTO } from "./dto/update-order.dto"
 
@@ -13,10 +15,11 @@ export class OrderService {
         }
     }
 
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(private prisma: PrismaService, private paginationService: PaginationService) {}
 
-    async getAll() {
+    async getAll(query?: PaginationDTO) {
         return this.prisma.order.findMany({
+            ...this.paginationService.paginate(query),
             include: {
                 ...this.include,
                 user: true

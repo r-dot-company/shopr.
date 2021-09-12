@@ -1,38 +1,45 @@
 import { AssetType } from ".prisma/client"
 import { Injectable } from "@nestjs/common"
 import { AssetTypeService } from "src/asset-type/asset-type.service"
+import { PaginationDTO } from "src/pagination/dto/pagination.dto"
+import { PaginationService } from "src/pagination/pagination.service"
 import { PrismaService } from "src/prisma/prisma.service"
 import { StorageService } from "src/storage/storage.service"
 import { CreateAssetDTO } from "./dto/create-asset.dto"
 
 @Injectable()
 export class AssetService {
+    private readonly include = {
+        type: {
+            select: {
+                key: true
+            }
+        },
+        product: {
+            select: {
+                name: true
+            }
+        }
+    }
+
     constructor(
         private prisma: PrismaService,
+        private paginationService: PaginationService,
         private storage: StorageService,
         private assetTypeService: AssetTypeService
     ) {}
 
-    async getAll() {
+    async getAll(query?: PaginationDTO) {
         return this.prisma.asset.findMany({
-            include: {
-                type: {
-                    select: {
-                        key: true
-                    }
-                },
-                product: {
-                    select: {
-                        name: true
-                    }
-                }
-            }
+            ...this.paginationService.paginate(query),
+            include: this.include
         })
     }
 
     async findById(id: string) {
         return this.prisma.asset.findUnique({
-            where: { id }
+            where: { id },
+            include: this.include
         })
     }
 

@@ -1,5 +1,7 @@
 import { Injectable } from "@nestjs/common"
 import { CryptoService } from "src/crypto/crypto.service"
+import { PaginationDTO } from "src/pagination/dto/pagination.dto"
+import { PaginationService } from "src/pagination/pagination.service"
 import { PrismaService } from "src/prisma/prisma.service"
 import { CreateUserDTO } from "./dto/create-user.dto"
 import { UpdateUserDTO } from "./dto/update-user.dto"
@@ -7,12 +9,14 @@ import { UpdateUserDTO } from "./dto/update-user.dto"
 @Injectable()
 export class UserService {
     constructor(
-        private readonly prisma: PrismaService,
-        private readonly cryptoService: CryptoService
+        private prisma: PrismaService,
+        private paginationService: PaginationService,
+        private cryptoService: CryptoService
     ) {}
 
-    async getAll() {
+    async getAll(query?: PaginationDTO) {
         return await this.prisma.user.findMany({
+            ...this.paginationService.paginate(query),
             include: { admin: true }
         })
     }

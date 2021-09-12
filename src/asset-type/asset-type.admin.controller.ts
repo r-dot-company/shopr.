@@ -7,9 +7,11 @@ import {
     NotFoundException,
     Param,
     Post,
-    Put
+    Put,
+    Query
 } from "@nestjs/common"
 import { Auth } from "src/auth/auth.decorator"
+import { PaginationDTO } from "src/pagination/dto/pagination.dto"
 import { Role } from "src/role/role.enum"
 import { AssetTypeService } from "./asset-type.service"
 import { CreateAssetTypeDTO } from "./dto/create-asset-type.dto"
@@ -22,8 +24,8 @@ export class AssetTypeAdminController {
     constructor(private assetTypeService: AssetTypeService) {}
 
     @Get()
-    async getAll() {
-        const assetTypes = await this.assetTypeService.getAll()
+    async getAll(@Query() query: PaginationDTO) {
+        const assetTypes = await this.assetTypeService.getAll(query)
         return assetTypes.map((assetType) => new AssetTypeEntity(assetType))
     }
 

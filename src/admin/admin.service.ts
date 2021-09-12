@@ -1,13 +1,16 @@
 import { Injectable } from "@nestjs/common"
+import { PaginationDTO } from "src/pagination/dto/pagination.dto"
+import { PaginationService } from "src/pagination/pagination.service"
 import { PrismaService } from "src/prisma/prisma.service"
 import { CreateAdminDTO } from "./dto/create-admin.dto"
 
 @Injectable()
 export class AdminService {
-    constructor(private prisma: PrismaService) {}
+    constructor(private prisma: PrismaService, private paginationService: PaginationService) {}
 
-    async getAll() {
+    async getAll(query?: PaginationDTO) {
         return this.prisma.admin.findMany({
+            ...this.paginationService.paginate(query),
             include: {
                 user: true
             }

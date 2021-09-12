@@ -8,10 +8,12 @@ import {
     UploadedFile,
     UseInterceptors,
     NotFoundException,
-    BadRequestException
+    BadRequestException,
+    Query
 } from "@nestjs/common"
 import { FileInterceptor } from "@nestjs/platform-express"
 import { Auth } from "src/auth/auth.decorator"
+import { PaginationDTO } from "src/pagination/dto/pagination.dto"
 import { Role } from "src/role/role.enum"
 import { AssetService } from "./asset.service"
 import { CreateAssetDTO } from "./dto/create-asset.dto"
@@ -23,8 +25,8 @@ export class AssetAdminController {
     constructor(private assetService: AssetService) {}
 
     @Get()
-    async getAll() {
-        const assets = await this.assetService.getAll()
+    async getAll(@Query() query: PaginationDTO) {
+        const assets = await this.assetService.getAll(query)
         return assets.map((asset) => new AssetEntity(asset))
     }
 
