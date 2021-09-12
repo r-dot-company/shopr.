@@ -5,7 +5,7 @@ import { UpdateOrderDTO } from "./dto/update-order.dto"
 
 @Injectable()
 export class OrderService {
-    private readonly include: Prisma.OrderInclude = {
+    private readonly include = {
         products: {
             include: {
                 product: true

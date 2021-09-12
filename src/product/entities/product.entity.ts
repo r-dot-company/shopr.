@@ -15,8 +15,9 @@ export class ProductEntity implements Product {
     @Expose({ groups: [Role.Admin] })
     access: Access
 
+    @Expose({ groups: [Role.Admin] })
     @Type(() => CategoryEntity)
-    category: Partial<CategoryEntity>
+    categories: Partial<CategoryEntity>[]
 
     @Exclude()
     categoryId: number

@@ -52,8 +52,7 @@ model Product {
   access          Access           @default(PRIVATE)
   assets          Asset[]
   cartProducts    CartProduct[]
-  category        Category?        @relation(fields: [categoryId], references: [id])
-  categoryId      Int?
+  categories      Category[]
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
 }

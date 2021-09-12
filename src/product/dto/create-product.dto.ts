@@ -1,5 +1,8 @@
 import { Access } from ".prisma/client"
 import {
+    ArrayUnique,
+    IsArray,
+    IsIn,
     IsNotEmpty,
     IsNumber,
     IsPositive,
@@ -7,7 +10,7 @@ import {
     Max,
     MaxLength,
 } from "class-validator"
-import { OneOf } from "src/rules/decorators"
+import { CategoryExists } from "src/rules/decorators"
 
 export class CreateProductDTO {
     @IsString()
@@ -20,6 +23,11 @@ export class CreateProductDTO {
     @Max(1e9)
     price: number
 
-    @OneOf(Object.values(Access))
+    @IsIn(Object.values(Access))
     access: Access
+
+    @IsArray()
+    @ArrayUnique()
+    @CategoryExists({ each: true })
+    categories: number[]
 }
