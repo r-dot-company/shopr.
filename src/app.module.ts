@@ -9,6 +9,8 @@ import { AssetAdminModule } from "./asset/asset.admin.module"
 import { AssetModule } from "./asset/asset.module"
 import { AuthModule } from "./auth/auth.module"
 import { CartModule } from "./cart/cart.module"
+import { CategoryAdminModule } from "./category/category.admin.module"
+import { CategoryModule } from "./category/category.module"
 import { OrderAdminModule } from "./order/order.admin.module"
 import { OrderModule } from "./order/order.module"
 import { PrismaModule } from "./prisma/prisma.module"
@@ -44,7 +46,9 @@ import { UserModule } from "./user/user.module"
         AssetModule,
         AssetAdminModule,
         StorageModule,
-        AdminModule
+        AdminModule,
+        CategoryModule,
+        CategoryAdminModule
     ],
     providers: [
         {

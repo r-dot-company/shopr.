@@ -2,6 +2,7 @@ import { Routes } from "@nestjs/core"
 import { AdminModule } from "./admin/admin.module"
 import { AssetTypeAdminModule } from "./asset-type/asset-type.admin.module"
 import { AssetAdminModule } from "./asset/asset.admin.module"
+import { CategoryAdminModule } from "./category/category.admin.module"
 import { OrderAdminModule } from "./order/order.admin.module"
 import { ProductAdminModule } from "./product/product.admin.module"
 import { UserAdminModule } from "./user/user.admin.module"
@@ -33,6 +34,10 @@ export const routes: Routes = [
             {
                 path: "user",
                 module: UserAdminModule
+            },
+            {
+                path: "category",
+                module: CategoryAdminModule
             }
         ]
     }

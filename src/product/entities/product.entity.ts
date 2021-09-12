@@ -1,6 +1,7 @@
 import { Prisma, Product } from "@prisma/client"
 import { Access } from "@prisma/client"
-import { Exclude, Expose, Transform } from "class-transformer"
+import { Exclude, Expose, Transform, Type } from "class-transformer"
+import { CategoryEntity } from "src/category/entities/category.entitiy"
 import { Role } from "src/role/role.enum"
 
 export class ProductEntity implements Product {
@@ -13,6 +14,12 @@ export class ProductEntity implements Product {
 
     @Expose({ groups: [Role.Admin] })
     access: Access
+
+    @Type(() => CategoryEntity)
+    category: Partial<CategoryEntity>
+
+    @Exclude()
+    categoryId: number
 
     @Exclude()
     createdAt: Date
