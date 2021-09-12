@@ -5,7 +5,9 @@ import {
     NotFoundException,
     Param,
     ParseIntPipe,
+    Query    
 } from "@nestjs/common"
+import { QueryProductsDTO } from "./dto/query-products.dto"
 import { ProductEntity } from "./entities/product.entity"
 import { ProductService } from "./product.service"
 
@@ -14,8 +16,8 @@ export class ProductController {
     constructor(private readonly productService: ProductService) {}
 
     @Get()
-    async getAll() {
-        const products = await this.productService.findAllPublic()
+    async getAll(@Query() query: QueryProductsDTO) {
+        const products = await this.productService.findAllPublic(query)
         return products.map((product) => new ProductEntity(product))
     }
 

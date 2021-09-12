@@ -7,11 +7,13 @@ import {
     Param,
     ParseIntPipe,
     Post,
-    Put
+    Put,
+    Query
 } from "@nestjs/common"
 import { Auth } from "src/auth/auth.decorator"
 import { Role } from "src/role/role.enum"
 import { CreateProductDTO } from "./dto/create-product.dto"
+import { QueryProductsDTO } from "./dto/query-products.dto"
 import { UpdateProductDTO } from "./dto/update-product.dto"
 import { ProductEntity } from "./entities/product.entity"
 import { ProductService } from "./product.service"
@@ -22,8 +24,8 @@ export class ProductAdminController {
 
     @Auth(Role.Admin)
     @Get()
-    async getAll() {
-        const products = await this.productService.findAll()
+    async getAll(@Query() query: QueryProductsDTO) {
+        const products = await this.productService.findAll(query)
         return products.map((product) => new ProductEntity(product))
     }
 

@@ -2,6 +2,7 @@ import { Access, Prisma } from ".prisma/client"
 import { Injectable } from "@nestjs/common"
 import { PrismaService } from "src/prisma/prisma.service"
 import { CreateProductDTO } from "./dto/create-product.dto"
+import { QueryProductsDTO } from "./dto/query-products.dto"
 import { UpdateProductDTO } from "./dto/update-product.dto"
 
 @Injectable()
@@ -17,17 +18,19 @@ export class ProductService {
 
     constructor(private readonly prisma: PrismaService) {}
 
-    async findAllPublic() {
+    async findAllPublic(query?: QueryProductsDTO) {
         return await this.prisma.product.findMany({
             where: {
+                ...this.getFilter(query),
                 access: Access.PUBLIC
             },
             include: this.include
         })
     }
 
-    async findAll() {
+    async findAll(query?: QueryProductsDTO) {
         return await this.prisma.product.findMany({
+            where: this.getFilter(query),
             include: this.include
         })
     }
@@ -80,5 +83,19 @@ export class ProductService {
                 }
             }
         })
+    }
+
+    private getFilter(query: QueryProductsDTO) {
+        const filter: Prisma.ProductWhereInput = {}
+        if (Array.isArray(query?.categories)) {
+            filter.categories = {
+                some: {
+                    id: {
+                        in: query.categories
+                    }
+                }
+            }
+        }
+        return filter
     }
 }

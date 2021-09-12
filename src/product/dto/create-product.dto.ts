@@ -1,10 +1,13 @@
 import { Access } from ".prisma/client"
+import { Transform } from "class-transformer"
 import {
     ArrayUnique,
     IsArray,
     IsIn,
+    IsInt,
     IsNotEmpty,
     IsNumber,
+    IsOptional,
     IsPositive,
     IsString,
     Max,
@@ -26,8 +29,11 @@ export class CreateProductDTO {
     @IsIn(Object.values(Access))
     access: Access
 
+    @IsOptional()
     @IsArray()
     @ArrayUnique()
+    @IsInt({ each: true })
     @CategoryExists({ each: true })
+    @Transform(({ value }) => value?.map((str: string) => parseInt(str)))
     categories: number[]
 }
