@@ -14,7 +14,18 @@ export class CategoryService {
 
     async getAll() {
         return await this.prisma.category.findMany({
-            include: this.include
+            where: {
+                parents: {
+                    none: {}
+                }
+            },
+            include: {
+                children: {
+                    include: {
+                        children: true
+                    }
+                }
+            }
         })
     }
 
