@@ -17,9 +17,9 @@ import { AssetService } from "./asset.service"
 import { CreateAssetDTO } from "./dto/create-asset.dto"
 import { AssetEntity } from "./entities/asset.entity"
 
-@Controller("asset")
+@Controller()
 @Auth(Role.Admin)
-export class AssetController {
+export class AssetAdminController {
     constructor(private assetService: AssetService) {}
 
     @Get()

@@ -1,18 +1,14 @@
 import {
-    Body,
     ConflictException,
     Controller,
     Get,
     NotFoundException,
     Param,
-    Post,
-    Put
+    Post
 } from "@nestjs/common"
 import { User } from ".prisma/client"
 import { AuthUser } from "src/auth/auth-user.decorator"
 import { Auth } from "src/auth/auth.decorator"
-import { Role } from "src/role/role.enum"
-import { UpdateOrderDTO } from "./dto/update-order.dto"
 import { OrderEntity } from "./entities/order.entity"
 import { OrderService } from "./order.service"
 
@@ -22,13 +18,13 @@ export class OrderController {
     constructor(private orderService: OrderService) {}
 
     @Get()
-    async getOrders(@AuthUser() user: User) {
+    async getAll(@AuthUser() user: User) {
         const orders = await this.orderService.findByUser(user)
         return orders.map((order) => new OrderEntity(order))
     }
 
     @Get(":id")
-    async getOrder(@AuthUser() user: User, @Param("id") id: string) {
+    async getOne(@AuthUser() user: User, @Param("id") id: string) {
         const order = await this.orderService.findById(id)
         if (!order || order.userId !== user.id) {
             throw new NotFoundException()
@@ -43,20 +39,5 @@ export class OrderController {
             throw new ConflictException()
         }
         return new OrderEntity(order)
-    }
-
-    @Auth(Role.Admin)
-    @Put(":id")
-    async updateOrder(
-        @AuthUser() user: User,
-        @Param("id") id: string,
-        @Body() updateOrderDTO: UpdateOrderDTO
-    ) {
-        const order = await this.orderService.findById(id)
-        if (!order || order.userId !== user.id) {
-            throw new NotFoundException()
-        }
-        const newOrder = await this.orderService.update(id, updateOrderDTO)
-        return new OrderEntity(newOrder)
     }
 }

@@ -16,9 +16,9 @@ import { CreateAssetTypeDTO } from "./dto/create-asset-type.dto"
 import { UpdateAssetTypeDTO } from "./dto/update-asset-type.dto"
 import { AssetTypeEntity } from "./entities/asset-type.entity"
 
-@Controller("asset-type")
+@Controller()
 @Auth(Role.Admin)
-export class AssetTypeController {
+export class AssetTypeAdminController {
     constructor(private assetTypeService: AssetTypeService) {}
 
     @Get()

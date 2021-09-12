@@ -1,34 +1,42 @@
-import { User } from ".prisma/client"
+import { Prisma, User } from ".prisma/client"
 import { Injectable } from "@nestjs/common"
 import { PrismaService } from "src/prisma/prisma.service"
 import { UpdateOrderDTO } from "./dto/update-order.dto"
 
 @Injectable()
 export class OrderService {
+    private readonly include: Prisma.OrderInclude = {
+        products: {
+            include: {
+                product: true
+            }
+        }
+    }
+
     constructor(private readonly prisma: PrismaService) {}
 
-    async findByUser(user: User) {
+    async getAll() {
         return this.prisma.order.findMany({
-            where: { user },
             include: {
-                products: {
-                    include: {
-                        product: true
-                    }
-                }
+                ...this.include,
+                user: true
             }
         })
     }
 
-    async findById(id: string) {
+    async findByUser(user: User) {
+        return this.prisma.order.findMany({
+            where: { user },
+            include: this.include
+        })
+    }
+
+    async findById(id: string, includeUser = false) {
         return this.prisma.order.findUnique({
             where: { id },
             include: {
-                products: {
-                    include: {
-                        product: true
-                    }
-                }
+                ...this.include,
+                user: includeUser
             }
         })
     }

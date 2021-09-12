@@ -15,7 +15,7 @@ import { AdminService } from "./admin.service"
 import { CreateAdminDTO } from "./dto/create-admin.dto"
 import { AdminEntity } from "./entities/admin.entity"
 
-@Controller("admin")
+@Controller()
 @Auth(Role.Admin)
 export class AdminController {
     constructor(private adminService: AdminService) {}
