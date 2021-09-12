@@ -1,5 +1,4 @@
 import { Access } from ".prisma/client"
-import { Transform } from "class-transformer"
 import {
     ArrayUnique,
     IsArray,
@@ -14,6 +13,7 @@ import {
     MaxLength,
 } from "class-validator"
 import { CategoryExists } from "src/rules/decorators"
+import { ParseIntTransform } from "src/transforms/parse-int.transform"
 
 export class CreateProductDTO {
     @IsString()
@@ -34,6 +34,6 @@ export class CreateProductDTO {
     @ArrayUnique()
     @IsInt({ each: true })
     @CategoryExists({ each: true })
-    @Transform(({ value }) => value?.map((str: string) => parseInt(str)))
+    @ParseIntTransform({ each: true })
     categories: number[]
 }
