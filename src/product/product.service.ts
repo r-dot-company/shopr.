@@ -1,5 +1,6 @@
 import { Access, Prisma } from ".prisma/client"
 import { Injectable } from "@nestjs/common"
+import { PaginationService } from "src/pagination/pagination.service"
 import { PrismaService } from "src/prisma/prisma.service"
 import { CreateProductDTO } from "./dto/create-product.dto"
 import { QueryProductsDTO } from "./dto/query-products.dto"
@@ -16,10 +17,14 @@ export class ProductService {
         }
     }
 
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(
+        private readonly prisma: PrismaService,
+        private readonly paginationService: PaginationService
+    ) {}
 
     async findAllPublic(query?: QueryProductsDTO) {
         return await this.prisma.product.findMany({
+            ...this.paginationService.paginate(query),
             where: {
                 ...this.getFilter(query),
                 access: Access.PUBLIC
@@ -30,6 +35,7 @@ export class ProductService {
 
     async findAll(query?: QueryProductsDTO) {
         return await this.prisma.product.findMany({
+            ...this.paginationService.paginate(query),
             where: this.getFilter(query),
             include: this.include
         })

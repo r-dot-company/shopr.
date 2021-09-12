@@ -13,6 +13,7 @@ import { CategoryAdminModule } from "./category/category.admin.module"
 import { CategoryModule } from "./category/category.module"
 import { OrderAdminModule } from "./order/order.admin.module"
 import { OrderModule } from "./order/order.module"
+import { PaginationModule } from "./pagination/pagination.module"
 import { PrismaModule } from "./prisma/prisma.module"
 import { ProductAdminModule } from "./product/product.admin.module"
 import { ProductModule } from "./product/product.module"
@@ -25,6 +26,7 @@ import { UserModule } from "./user/user.module"
 @Module({
     imports: [
         PrismaModule,
+        PaginationModule,
         AuthModule,
         RulesModule,
         MulterModule.register({
