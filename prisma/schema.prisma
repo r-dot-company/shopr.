@@ -39,10 +39,12 @@ model Address {
 }
 
 model Category {
-  id        Int       @default(autoincrement()) @id
-  key       String    @db.VarChar(255) @unique
-  name      String    @db.VarChar(255)
+  id        Int         @default(autoincrement()) @id
+  key       String      @db.VarChar(255) @unique
+  name      String      @db.VarChar(255)
   products  Product[]
+  children  Category[]  @relation("CategoryToCategory", references: [id])
+  parents   Category[]  @relation("CategoryToCategory", references: [id])
 }
 
 model Product {
