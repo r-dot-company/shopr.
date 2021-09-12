@@ -7,7 +7,12 @@ import { UpdateProductDTO } from "./dto/update-product.dto"
 @Injectable()
 export class ProductService {
     private readonly include = {
-        categories: true
+        categories: true,
+        assets: {
+            include: {
+                type: true
+            }
+        }
     }
 
     constructor(private readonly prisma: PrismaService) {}
