@@ -64,8 +64,9 @@ model Order {
   id              String          @default(uuid()) @id
   status          OrderStatus     @default(RECEIVED)
   user            User            @relation(fields: [userId], references: [id])
-  products        CartProduct[]
   userId          String
+  products        CartProduct[]
+  total           Decimal         @db.Decimal(16, 2)
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
 }
