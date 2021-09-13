@@ -1,4 +1,5 @@
 import { ValidationPipe } from "@nestjs/common"
+import { ConfigService } from "@nestjs/config"
 import { NestFactory } from "@nestjs/core"
 import { useContainer } from "class-validator"
 import { AppModule } from "./app.module"
@@ -13,6 +14,7 @@ async function bootstrap() {
         whitelist: true,
         transform: true
     }))
-    await app.listen(3000)
+    const configService = app.get(ConfigService)
+    await app.listen(configService.get<number>("PORT"))
 }
 bootstrap()

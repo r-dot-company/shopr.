@@ -1,4 +1,5 @@
 import { ClassSerializerInterceptor, Module } from "@nestjs/common"
+import { ConfigModule, ConfigService } from "@nestjs/config"
 import { APP_INTERCEPTOR, RouterModule } from "@nestjs/core"
 import { MulterModule } from "@nestjs/platform-express"
 import { AddressModule } from "./address/address.module"
@@ -11,6 +12,7 @@ import { AuthModule } from "./auth/auth.module"
 import { CartModule } from "./cart/cart.module"
 import { CategoryAdminModule } from "./category/category.admin.module"
 import { CategoryModule } from "./category/category.module"
+import { configSchema } from "./config/config.schema"
 import { OrderAdminModule } from "./order/order.admin.module"
 import { OrderModule } from "./order/order.module"
 import { PaginationModule } from "./pagination/pagination.module"
@@ -25,16 +27,24 @@ import { UserModule } from "./user/user.module"
 
 @Module({
     imports: [
+        ConfigModule.forRoot({
+            validationSchema: configSchema,
+            isGlobal: true,
+            cache: true
+        }),
+        MulterModule.registerAsync({
+            inject: [ConfigService],
+            useFactory: (configService: ConfigService) => ({
+                limits: {
+                    fileSize: configService.get<number>("MAX_UPLOAD_FILE_SIZE_MB") / 1e6
+                }
+            })
+        }),
+        RouterModule.register(routes),
         PrismaModule,
         PaginationModule,
         AuthModule,
         RulesModule,
-        MulterModule.register({
-            limits: {
-                fileSize: 5 * 1e6 // 5MB
-            }
-        }),
-        RouterModule.register(routes),
         ProductModule,
         ProductAdminModule,
         UserModule,

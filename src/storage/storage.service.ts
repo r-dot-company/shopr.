@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common"
+import { ConfigService } from "@nestjs/config"
 import fs from "fs"
 import mime from "mime"
 import path from "path"
@@ -6,8 +7,8 @@ import { v4 as uuid } from "uuid"
 
 @Injectable()
 export class StorageService {
-    private readonly STORAGE_DIR = "storage"
-    
+    constructor(private configService: ConfigService) {}
+
     async storeUploadedFile(file: Express.Multer.File) {
         const ext = mime.getExtension(file.mimetype)
         if (!ext) {
@@ -45,6 +46,7 @@ export class StorageService {
     }
 
     private getPath(filename: string) {
-        return path.join(this.STORAGE_DIR, filename)
+        const storageDir = this.configService.get<string>("STORAGE_DIR")
+        return path.join(storageDir, filename)
     }
 }

@@ -1,4 +1,3 @@
-import { User } from ".prisma/client"
 import { Controller, Get, Query } from "@nestjs/common"
 import { Auth } from "src/auth/auth.decorator"
 import { PaginationDTO } from "src/pagination/dto/pagination.dto"
