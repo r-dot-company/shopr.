@@ -30,7 +30,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "ra-data-json-server": "^3.18.0",
+    "query-string": "^7.0.1",
     "react": "^17.0.2",
     "react-admin": "^3.18.1",
     "react-dom": "^17.0.2",
@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "@types/node": "^16.9.1",
+    "@types/query-string": "^6.3.0",
     "@types/react": "^17.0.20",
     "@types/react-dom": "^17.0.9"
   }
