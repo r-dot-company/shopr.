@@ -13,7 +13,11 @@ export class AuthController {
     @UseGuards(LocalAuthGuard)
     @Post("/login")
     async login(@AuthUser() user: User) {
-        return this.authService.generateToken(user)
+        const { access_token } = await this.authService.generateToken(user)
+        return {
+            access_token,
+            user: new UserEntity(user)
+        }
     }
 
     @UseGuards(JWTAuthGuard)

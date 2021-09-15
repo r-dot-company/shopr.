@@ -11,6 +11,8 @@ model User {
   id             String         @default(uuid()) @id
   email          String         @db.VarChar(255) @unique
   password       String         @db.VarChar(255)
+  firstname      String
+  lastname       String
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
   address        Address?

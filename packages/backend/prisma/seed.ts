@@ -11,7 +11,9 @@ async function seedAdmin() {
             user: {
                 create: {
                     email: "admin@mail.com",
-                    password: bcrypt.hashSync("admin", 5)
+                    password: bcrypt.hashSync("admin", 5),
+                    firstname: "Admin",
+                    lastname: "Admin"
                 }  
             }
         }
