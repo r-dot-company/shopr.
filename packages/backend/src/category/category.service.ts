@@ -45,7 +45,15 @@ export class CategoryService {
 
     async create(createCategoryDTO: CreateCategoryDTO) {
         return await this.prisma.category.create({
-            data: createCategoryDTO,
+            data: {
+                ...createCategoryDTO,
+                children: {
+                    connect: createCategoryDTO.children?.map((id) => ({ id }))
+                },
+                parents: {
+                    connect: createCategoryDTO.parents?.map((id) => ({ id }))
+                },
+            },
             include: this.include
         })
     }
