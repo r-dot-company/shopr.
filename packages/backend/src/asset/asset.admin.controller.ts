@@ -13,6 +13,7 @@ import {
 } from "@nestjs/common"
 import { FileInterceptor } from "@nestjs/platform-express"
 import { Auth } from "src/auth/auth.decorator"
+import { ContentRangeInterceptor } from "src/pagination/content-range.interceptor"
 import { PaginationDTO } from "src/pagination/dto/pagination.dto"
 import { Role } from "src/role/role.enum"
 import { AssetService } from "./asset.service"
@@ -25,9 +26,11 @@ export class AssetAdminController {
     constructor(private assetService: AssetService) {}
 
     @Get()
+    @UseInterceptors(ContentRangeInterceptor)
     async getAll(@Query() query: PaginationDTO) {
+        const size = await this.assetService.getSize()
         const assets = await this.assetService.getAll(query)
-        return assets.map((asset) => new AssetEntity(asset))
+        return [size, assets.map((asset) => new AssetEntity(asset))]
     }
 
     @UseInterceptors(FileInterceptor("file"))

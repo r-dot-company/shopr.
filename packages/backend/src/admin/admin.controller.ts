@@ -8,9 +8,11 @@ import {
     NotFoundException,
     Param,
     Post,
-    Query
+    Query,
+    UseInterceptors
 } from "@nestjs/common"
 import { Auth } from "src/auth/auth.decorator"
+import { ContentRangeInterceptor } from "src/pagination/content-range.interceptor"
 import { PaginationDTO } from "src/pagination/dto/pagination.dto"
 import { Role } from "src/role/role.enum"
 import { AdminService } from "./admin.service"
@@ -23,9 +25,11 @@ export class AdminController {
     constructor(private adminService: AdminService) {}
 
     @Get()
+    @UseInterceptors(ContentRangeInterceptor)
     async getAll(@Query() query: PaginationDTO) {
+        const size = await this.adminService.getSize()
         const admins = await this.adminService.getAll(query)
-        return admins.map((admin) => new AdminEntity(admin))
+        return [size, admins.map((admin) => new AdminEntity(admin))]
     }
 
     @Get(":id")

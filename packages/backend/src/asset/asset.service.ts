@@ -29,6 +29,10 @@ export class AssetService {
         private assetTypeService: AssetTypeService
     ) {}
 
+    async getSize() {
+        return this.prisma.asset.count()
+    }
+
     async getAll(query?: PaginationDTO) {
         return this.prisma.asset.findMany({
             ...this.paginationService.paginate(query),

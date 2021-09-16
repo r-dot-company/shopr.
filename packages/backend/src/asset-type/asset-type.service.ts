@@ -10,6 +10,10 @@ import { UpdateAssetTypeDTO } from "./dto/update-asset-type.dto"
 export class AssetTypeService {
     constructor(private prisma: PrismaService, private paginationService: PaginationService) {}
 
+    async getSize() {
+        return this.prisma.assetType.count()
+    }
+
     async getAll(query?: PaginationDTO) {
         return this.prisma.assetType.findMany({
             ...this.paginationService.paginate(query)

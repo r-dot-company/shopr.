@@ -5,7 +5,8 @@ import {
     NotFoundException,
     Param,
     Put,
-    Query
+    Query,
+    UseInterceptors
 } from "@nestjs/common"
 import { User } from ".prisma/client"
 import { AuthUser } from "src/auth/auth-user.decorator"
@@ -15,6 +16,7 @@ import { UpdateOrderDTO } from "./dto/update-order.dto"
 import { OrderEntity } from "./entities/order.entity"
 import { OrderService } from "./order.service"
 import { PaginationDTO } from "src/pagination/dto/pagination.dto"
+import { ContentRangeInterceptor } from "src/pagination/content-range.interceptor"
 
 @Controller()
 @Auth(Role.Admin)
@@ -22,9 +24,11 @@ export class OrderAdminController {
     constructor(private orderService: OrderService) {}
 
     @Get()
+    @UseInterceptors(ContentRangeInterceptor)
     async getAll(@Query() query: PaginationDTO) {
+        const size = await this.orderService.getSize()
         const orders = await this.orderService.getAll(query)
-        return orders.map((order) => new OrderEntity(order))
+        return [size, orders.map((order) => new OrderEntity(order))]
     }
 
     @Get(":id")

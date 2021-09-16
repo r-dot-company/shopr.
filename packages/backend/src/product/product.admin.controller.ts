@@ -8,9 +8,11 @@ import {
     ParseIntPipe,
     Post,
     Put,
-    Query
+    Query,
+    UseInterceptors
 } from "@nestjs/common"
 import { Auth } from "src/auth/auth.decorator"
+import { ContentRangeInterceptor } from "src/pagination/content-range.interceptor"
 import { Role } from "src/role/role.enum"
 import { CreateProductDTO } from "./dto/create-product.dto"
 import { QueryProductsDTO } from "./dto/query-products.dto"
@@ -24,9 +26,11 @@ export class ProductAdminController {
 
     @Auth(Role.Admin)
     @Get()
+    @UseInterceptors(ContentRangeInterceptor)
     async getAll(@Query() query: QueryProductsDTO) {
+        const size = await this.productService.getSize(query)
         const products = await this.productService.findAll(query)
-        return products.map((product) => new ProductEntity(product))
+        return [size, products.map((product) => new ProductEntity(product))]
     }
 
     @Auth(Role.Admin)

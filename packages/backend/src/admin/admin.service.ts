@@ -8,6 +8,10 @@ import { CreateAdminDTO } from "./dto/create-admin.dto"
 export class AdminService {
     constructor(private prisma: PrismaService, private paginationService: PaginationService) {}
 
+    async getSize() {
+        return this.prisma.admin.count()
+    }
+
     async getAll(query?: PaginationDTO) {
         return this.prisma.admin.findMany({
             ...this.paginationService.paginate(query),

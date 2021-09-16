@@ -8,9 +8,11 @@ import {
     Param,
     Post,
     Put,
-    Query
+    Query,
+    UseInterceptors
 } from "@nestjs/common"
 import { Auth } from "src/auth/auth.decorator"
+import { ContentRangeInterceptor } from "src/pagination/content-range.interceptor"
 import { PaginationDTO } from "src/pagination/dto/pagination.dto"
 import { Role } from "src/role/role.enum"
 import { AssetTypeService } from "./asset-type.service"
@@ -24,9 +26,11 @@ export class AssetTypeAdminController {
     constructor(private assetTypeService: AssetTypeService) {}
 
     @Get()
+    @UseInterceptors(ContentRangeInterceptor)
     async getAll(@Query() query: PaginationDTO) {
+        const size = await this.assetTypeService.getSize()
         const assetTypes = await this.assetTypeService.getAll(query)
-        return assetTypes.map((assetType) => new AssetTypeEntity(assetType))
+        return [size, assetTypes.map((assetType) => new AssetTypeEntity(assetType))]
     }
 
     @Post()

@@ -1,5 +1,6 @@
-import { Controller, Get, Query } from "@nestjs/common"
+import { Controller, Get, Query, UseInterceptors } from "@nestjs/common"
 import { Auth } from "src/auth/auth.decorator"
+import { ContentRangeInterceptor } from "src/pagination/content-range.interceptor"
 import { PaginationDTO } from "src/pagination/dto/pagination.dto"
 import { Role } from "src/role/role.enum"
 import { UserEntity } from "./entities/user.entity"
@@ -11,8 +12,10 @@ export class UserAdminController {
     constructor(private readonly userService: UserService) {}
 
     @Get()
+    @UseInterceptors(ContentRangeInterceptor)
     async getAll(@Query() query: PaginationDTO) {
+        const size = await this.userService.getSize()
         const users = await this.userService.getAll(query)
-        return users.map((user) => new UserEntity(user))
+        return [size, users.map((user) => new UserEntity(user))]
     }
 }

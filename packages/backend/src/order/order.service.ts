@@ -17,6 +17,10 @@ export class OrderService {
 
     constructor(private prisma: PrismaService, private paginationService: PaginationService) {}
 
+    async getSize() {
+        return this.prisma.order.count()
+    }
+
     async getAll(query?: PaginationDTO) {
         return this.prisma.order.findMany({
             ...this.paginationService.paginate(query),
