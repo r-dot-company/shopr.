@@ -32,6 +32,12 @@ export class CategoryAdminController {
         return [size, categories.map((category) => new CategoryEntity(category))]
     }
 
+    @Get("/tree")
+    async getTree() {
+        const categories = await this.categoryService.getTree()
+        return categories.map((category) => new CategoryEntity(category))
+    }
+
     @Get(":id")
     async getOne(@Param("id", ParseIntPipe) id: number) {
         const category = await this.categoryService.findById(id)

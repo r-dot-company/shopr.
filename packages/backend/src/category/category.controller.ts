@@ -8,7 +8,7 @@ export class CategoryController {
 
     @Get()
     async getAll() {
-        const categories = await this.categoryService.getAll()
+        const categories = await this.categoryService.getTree()
         return categories.map((category) => new CategoryEntity(category))
     }
 
