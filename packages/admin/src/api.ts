@@ -1,4 +1,4 @@
-import { fetchUtils } from "ra-core"
+import { fetchUtils } from "react-admin"
 import queryString from "query-string"
 import { authProvider } from "./authProvider"
 
@@ -28,6 +28,16 @@ export function makeURL(path: string, params?: Record<string, any>) {
 export function makeAdminURL(...args: Parameters<typeof makeURL>) {
     const [path, ...rest] = args
     return makeURL(`admin/${path}`, ...rest)
+}
+
+export function parseContentRange(content: string) {
+    const total = content.split("/").pop()
+    if (!total) {
+        return null
+    }
+    return {
+        total: parseInt(total)
+    }
 }
 
 export namespace API {

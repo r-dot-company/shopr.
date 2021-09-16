@@ -1,4 +1,4 @@
-import { AuthProvider } from "ra-core"
+import { AuthProvider } from "react-admin"
 import { API, httpClient, makeURL } from "./api"
 
 const AUTH = "auth"
