@@ -27,10 +27,10 @@ export class ProductEntity implements Product {
     @Exclude()
     categoryId: number
 
-    @Exclude()
+    @Expose({ groups: [Role.Admin] })
     createdAt: Date
 
-    @Exclude()
+    @Expose({ groups: [Role.Admin] })
     updatedAt: Date
 
     constructor(partial: Partial<ProductEntity>) {

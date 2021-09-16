@@ -1,6 +1,7 @@
 import { User } from ".prisma/client"
 import { Exclude, Expose, Type } from "class-transformer"
 import { AdminEntity } from "src/admin/entities/admin.entity"
+import { Role } from "src/role/role.enum"
 import { ToBooleanTransform } from "src/transforms/to-boolean.transform"
 
 export class UserEntity implements User {
@@ -24,10 +25,10 @@ export class UserEntity implements User {
     @ToBooleanTransform()
     admin: Partial<AdminEntity>
 
-    @Exclude()
+    @Expose({ groups: [Role.Admin] })
     createdAt: Date
 
-    @Exclude()
+    @Expose({ groups: [Role.Admin] })
     updatedAt: Date
 
     constructor(partial: Partial<UserEntity>) {
