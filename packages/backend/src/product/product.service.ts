@@ -22,14 +22,18 @@ export class ProductService {
         private readonly paginationService: PaginationService
     ) {}
 
-    async findAllPublic(query?: QueryProductsDTO) {
-        return await this.prisma.product.findMany({
-            ...this.paginationService.paginate(query),
+    async getSize(query?: QueryProductsDTO) {
+        return await this.prisma.product.count({
+            where: this.getFilter(query)
+        })
+    }
+
+    async getSizePublic(query?: QueryProductsDTO) {
+        return await this.prisma.product.count({
             where: {
                 ...this.getFilter(query),
                 access: Access.PUBLIC
-            },
-            include: this.include
+            }
         })
     }
 
@@ -37,6 +41,17 @@ export class ProductService {
         return await this.prisma.product.findMany({
             ...this.paginationService.paginate(query),
             where: this.getFilter(query),
+            include: this.include
+        })
+    }
+
+    async findAllPublic(query?: QueryProductsDTO) {
+        return await this.prisma.product.findMany({
+            ...this.paginationService.paginate(query),
+            where: {
+                ...this.getFilter(query),
+                access: Access.PUBLIC
+            },
             include: this.include
         })
     }

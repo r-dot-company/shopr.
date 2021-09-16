@@ -8,9 +8,11 @@ import {
     Param,
     ParseIntPipe,
     Post,
-    Put
+    Put,
+    UseInterceptors
 } from "@nestjs/common"
 import { Auth } from "src/auth/auth.decorator"
+import { ContentRangeInterceptor } from "src/pagination/content-range.interceptor"
 import { Role } from "src/role/role.enum"
 import { CategoryService } from "./category.service"
 import { CreateCategoryDTO } from "./dto/create-category.dto"
@@ -23,9 +25,11 @@ export class CategoryAdminController {
     constructor(private categoryService: CategoryService) {}
 
     @Get()
+    @UseInterceptors(ContentRangeInterceptor)
     async getAll() {
+        const size = await this.categoryService.getSize()
         const categories = await this.categoryService.getAll()
-        return categories.map((category) => new CategoryEntity(category))
+        return [size, categories.map((category) => new CategoryEntity(category))]
     }
 
     @Get(":id")

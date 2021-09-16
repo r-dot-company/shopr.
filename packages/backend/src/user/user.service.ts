@@ -14,6 +14,10 @@ export class UserService {
         private cryptoService: CryptoService
     ) {}
 
+    async getSize() {
+        return this.prisma.user.count()
+    }
+
     async getAll(query?: PaginationDTO) {
         return await this.prisma.user.findMany({
             ...this.paginationService.paginate(query),

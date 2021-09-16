@@ -5,8 +5,10 @@ import {
     NotFoundException,
     Param,
     ParseIntPipe,
-    Query    
+    Query,    
+    UseInterceptors
 } from "@nestjs/common"
+import { ContentRangeInterceptor } from "src/pagination/content-range.interceptor"
 import { QueryProductsDTO } from "./dto/query-products.dto"
 import { ProductEntity } from "./entities/product.entity"
 import { ProductService } from "./product.service"
@@ -16,9 +18,11 @@ export class ProductController {
     constructor(private readonly productService: ProductService) {}
 
     @Get()
+    @UseInterceptors(ContentRangeInterceptor)
     async getAll(@Query() query: QueryProductsDTO) {
+        const size = await this.productService.getSizePublic()
         const products = await this.productService.findAllPublic(query)
-        return products.map((product) => new ProductEntity(product))
+        return [size, products.map((product) => new ProductEntity(product))]
     }
 
     @Get(":id")

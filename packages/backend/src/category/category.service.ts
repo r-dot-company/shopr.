@@ -12,6 +12,10 @@ export class CategoryService {
 
     constructor(private prisma: PrismaService) {}
 
+    async getSize() {
+        return this.prisma.category.count()
+    }
+
     async getAll() {
         return await this.prisma.category.findMany({
             where: {
