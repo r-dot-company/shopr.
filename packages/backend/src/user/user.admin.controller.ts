@@ -1,4 +1,4 @@
-import { Controller, Get, Query, UseInterceptors } from "@nestjs/common"
+import { Controller, Get, NotFoundException, Param, Query, UseInterceptors } from "@nestjs/common"
 import { Auth } from "src/auth/auth.decorator"
 import { ContentRangeInterceptor } from "src/pagination/content-range.interceptor"
 import { PaginationDTO } from "src/pagination/dto/pagination.dto"
@@ -17,5 +17,14 @@ export class UserAdminController {
         const size = await this.userService.getSize()
         const users = await this.userService.getAll(query)
         return [size, users.map((user) => new UserEntity(user))]
+    }
+
+    @Get(":id")
+    async getOne(@Param("id") id: string) {
+        const user = await this.userService.findById(id)
+        if (!user) {
+            throw new NotFoundException()
+        }
+        return new UserEntity(user)
     }
 }
