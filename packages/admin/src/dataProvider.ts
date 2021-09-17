@@ -41,7 +41,9 @@ export const dataProvider: DataProvider = {
     async getOne(resource: string, params: GetOneParams) {
         const url = makeAdminURL(`${resource}/${params.id}`)
         const { json } = await httpClient(url)
-        return { data: json }
+        return {
+            data: formatItem(json)
+        }
     },
 
     async getMany(resource: string, params: GetManyParams) {
@@ -67,7 +69,7 @@ export const dataProvider: DataProvider = {
             body
         })
         return {
-            data: json
+            data: formatItem(json)
         }
     },
 
@@ -79,7 +81,7 @@ export const dataProvider: DataProvider = {
             body
         })
         return {
-            data: json
+            data: formatItem(json)
         }
     },
 
@@ -96,7 +98,7 @@ export const dataProvider: DataProvider = {
             method: "DELETE"
         })
         return {
-            data: json
+            data: formatItem(json)
         }
     },
 

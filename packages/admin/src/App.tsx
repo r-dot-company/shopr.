@@ -3,7 +3,7 @@ import { authProvider } from "./authProvider"
 import { dataProvider } from "./dataProvider"
 import { AdminList } from "./resources/admin"
 import { AssetCreate, AssetList } from "./resources/asset"
-import { AssetTypeList } from "./resources/asset-type"
+import { AssetTypeCreate, AssetTypeEdit, AssetTypeList } from "./resources/asset-type"
 import { CategoryCreate, CategoryEdit, CategoryList } from "./resources/category"
 import { OrderEdit, OrderList } from "./resources/order"
 import { ProductCreate, ProductEdit, ProductList } from "./resources/product"
@@ -17,7 +17,7 @@ export default function App() {
             <Resource name="category" list={CategoryList} edit={CategoryEdit} create={CategoryCreate}/>
             <Resource name="order" list={OrderList} edit={OrderEdit}/>
             <Resource name="asset" list={AssetList} create={AssetCreate}/>
-            <Resource name="asset-type" list={AssetTypeList}/>
+            <Resource name="asset-type" list={AssetTypeList} edit={AssetTypeEdit} create={AssetTypeCreate}/>
             <Resource name="admin" list={AdminList}/>
         </Admin>
     )
