@@ -38,9 +38,11 @@
     "web-vitals": "^1.0.1"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.173",
     "@types/node": "^16.9.1",
     "@types/query-string": "^6.3.0",
     "@types/react": "^17.0.20",
-    "@types/react-dom": "^17.0.9"
+    "@types/react-dom": "^17.0.9",
+    "@types/react-router-dom": "^5.1.9"
   }
 }

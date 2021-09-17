@@ -10,18 +10,20 @@ import {
     TextInput,
     NumberInput,
     ArrayInput,
-    SimpleFormIterator
+    SimpleFormIterator,
+    EditButton
 } from "react-admin"
 import { OrderStatusInput } from "../components/OrderStatusInput"
+import { UserField } from "./user"
 
 export function OrderList(props: any) {
     return (
         <List {...props}>
-            <Datagrid rowClick="edit">
+            <Datagrid>
                 <TextField source="id"/>
                 <TextField source="status"/>
                 <NumberField source="total"/>
-                <TextField source="user.id"/>
+                <UserField source="user.id"/>
                 <ArrayField source="products">
                     <Datagrid>
                         <NumberField source="amount"/>
@@ -30,6 +32,7 @@ export function OrderList(props: any) {
                 </ArrayField>
                 <DateField source="createdAt" showTime/>
                 <DateField source="updatedAt" showTime/>
+                <EditButton/>
             </Datagrid>
         </List>
     )
