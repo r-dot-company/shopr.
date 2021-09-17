@@ -11,6 +11,7 @@ import {
     UpdateParams
 } from "react-admin"
 import { httpClient, makeAdminURL, parseContentRange } from "./api"
+import { formatBody } from "./formatter"
 
 function formatItem(item: any) {
     if (item.key && !item.id) {
@@ -60,9 +61,10 @@ export const dataProvider: DataProvider = {
 
     async create(resource: string, params: CreateParams) {
         const url = makeAdminURL(resource)
+        const body = formatBody(resource, params.data)
         const { json } = await httpClient(url, {
             method: "POST",
-            body: JSON.stringify(params.data)
+            body
         })
         return {
             data: json
@@ -70,10 +72,11 @@ export const dataProvider: DataProvider = {
     },
 
     async update(resource: string, params: UpdateParams) {
-        const url = makeAdminURL(resource)
+        const url = makeAdminURL(`${resource}/${params.id}`)
+        const body = formatBody(resource, params.data)
         const { json } = await httpClient(url, {
             method: "PUT",
-            body: JSON.stringify(params.data)
+            body
         })
         return {
             data: json
@@ -98,9 +101,13 @@ export const dataProvider: DataProvider = {
     },
 
     async deleteMany(resource: string, params: DeleteManyParams) {
-        alert("Not implemented: deleteMany")
+        await Promise.all(params.ids.map(async (id) => {
+            // @ts-ignore
+            const { data } = await this.delete(resource, { id })
+            return data
+        }))
         return {
-            data: [] as any
+            data: params.ids
         }
     }
 }

@@ -6,13 +6,22 @@ import {
     DateField,
     ArrayField,
     SingleFieldList,
-    ChipField
+    ChipField,
+    Edit,
+    SimpleForm,
+    TextInput,
+    NumberInput,
+    Create,
+    ArrayInput,
+    SimpleFormIterator
 } from "react-admin"
+import { AccessSelectInput } from "../components/AccessSelectInput"
+import { CategorySelectInput } from "./category"
 
 export function ProductList(props: any) {
     return (
         <List {...props}>
-            <Datagrid>
+            <Datagrid rowClick="edit">
                 <TextField source="id"/>
                 <TextField source="name"/>
                 <NumberField source="price"/>
@@ -32,5 +41,40 @@ export function ProductList(props: any) {
                 <DateField source="updatedAt" showTime/>
             </Datagrid>
         </List>
+    )
+}
+
+export function ProductEdit(props: any) {
+    return (
+        <Edit {...props}>
+            <SimpleForm>
+                <TextInput disabled source="id"/>
+                <TextInput source="name"/>
+                <NumberInput source="price"/>
+                <AccessSelectInput source="access"/>
+                <ArrayInput source="categories">
+                    <SimpleFormIterator>
+                        <CategorySelectInput source="id"/>
+                    </SimpleFormIterator>
+                </ArrayInput>
+            </SimpleForm>
+        </Edit>
+    )
+}
+
+export function ProductCreate(props: any) {
+    return (
+        <Create {...props}>
+            <SimpleForm>
+                <TextInput source="name"/>
+                <NumberInput source="price"/>
+                <AccessSelectInput source="access"/>
+                <ArrayInput source="categories">
+                    <SimpleFormIterator>
+                        <CategorySelectInput source="id"/>
+                    </SimpleFormIterator>
+                </ArrayInput>
+            </SimpleForm>
+        </Create>
     )
 }

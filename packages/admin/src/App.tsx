@@ -6,14 +6,14 @@ import { AssetList } from "./resources/asset"
 import { AssetTypeList } from "./resources/asset-type"
 import { CategoryList } from "./resources/category"
 import { OrderList } from "./resources/order"
-import { ProductList } from "./resources/product"
+import { ProductCreate, ProductEdit, ProductList } from "./resources/product"
 import { UserList } from "./resources/user"
 
 export default function App() {
     return (
         <Admin dataProvider={dataProvider} authProvider={authProvider}>
             <Resource name="user" list={UserList}/>
-            <Resource name="product" list={ProductList}/>
+            <Resource name="product" list={ProductList} edit={ProductEdit} create={ProductCreate}/>
             <Resource name="category" list={CategoryList}/>
             <Resource name="order" list={OrderList}/>
             <Resource name="asset" list={AssetList}/>

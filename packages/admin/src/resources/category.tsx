@@ -4,7 +4,12 @@ import {
     TextField,
     ArrayField,
     ChipField,
-    SingleFieldList
+    SingleFieldList,
+    SelectInput,
+    SelectInputProps,
+    useQueryWithStore,
+    Loading,
+    Error
 } from "react-admin"
 
 export function CategoryList(props: any) {
@@ -26,5 +31,36 @@ export function CategoryList(props: any) {
                 </ArrayField>
             </Datagrid>
         </List>
+    )
+}
+
+export function CategorySelectInput(props: Omit<SelectInputProps, "choices">) {
+    const { loaded, error, data } = useQueryWithStore({
+        type: "getList",
+        resource: "category",
+        payload: {
+            pagination: {
+                page: 1,
+                per_page: 100
+            }
+        }
+    })
+
+    if (!loaded) {
+        return <Loading/>
+    }
+
+    if (error) {
+        return <Error error={error}/>
+    }
+
+    return (
+        <SelectInput
+            {...props}
+            choices={data.map(({ id, key }: { id: number, key: string }) => ({
+                id,
+                name: key
+            }))}
+        />
     )
 }
