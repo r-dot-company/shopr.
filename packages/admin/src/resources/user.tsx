@@ -7,8 +7,7 @@ import {
     useRecordContext,
     linkToRecord,
     Show,
-    SimpleShowLayout,
-    ShowButton
+    SimpleShowLayout
 } from "react-admin"
 import { Link } from "react-router-dom"
 import { get } from "lodash"
@@ -16,7 +15,7 @@ import { get } from "lodash"
 export function UserList(props: any) {
     return (
         <List {...props}>
-            <Datagrid>
+            <Datagrid rowClick="show">
                 <TextField source="id"/>
                 <TextField source="email"/>
                 <TextField source="firstname"/>
@@ -24,7 +23,6 @@ export function UserList(props: any) {
                 <BooleanField source="admin"/>
                 <DateField source="createdAt" showTime/>
                 <DateField source="updatedAt" showTime/>
-                <ShowButton/>
             </Datagrid>
         </List>
     )

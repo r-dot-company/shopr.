@@ -16,6 +16,7 @@ import {
 import { useFormState } from "react-final-form"
 import { makeURL } from "../api"
 import { AssetTypeSelect } from "./asset-type"
+import { ProductField } from "./product"
 
 const IMAGE_EXTENSIONS = [".jpeg", ".jpg", ".png", ".gif"]
 
@@ -26,7 +27,7 @@ export function AssetList(props: any) {
                 <TextField source="id"/>
                 <TextField source="filename"/>
                 <TextField source="type.key" label="Type"/>
-                <TextField source="product.name" label="Product"/>
+                <ProductField source="product.name"/>
                 <AssetPreviewField source="filename" label="Preview"/>
             </Datagrid>
         </List>

@@ -15,8 +15,13 @@ import {
     SimpleForm,
     TextInput,
     ArrayInput,
-    SimpleFormIterator
+    SimpleFormIterator,
+    useRecordContext,
+    linkToRecord
 } from "react-admin"
+import { Link } from "react-router-dom"
+import { get } from "lodash"
+import { Chip } from "@material-ui/core"
 
 export function CategoryList(props: any) {
     return (
@@ -80,6 +85,16 @@ export function CategoryCreate(props: any) {
                 </ArrayInput>
             </SimpleForm>
         </Create>
+    )
+}
+
+export function CategoryField(props: any) {
+    const record = useRecordContext(props)
+    const url = linkToRecord("/category", record.id, "edit")
+    return (
+        <Link to={url}>
+            <Chip label={get(record, props.source)} clickable/>
+        </Link>
     )
 }
 

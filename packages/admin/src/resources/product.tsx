@@ -6,29 +6,33 @@ import {
     DateField,
     ArrayField,
     SingleFieldList,
-    ChipField,
     Edit,
     SimpleForm,
     TextInput,
     NumberInput,
     Create,
     ArrayInput,
-    SimpleFormIterator
+    SimpleFormIterator,
+    useRecordContext,
+    linkToRecord,
+    EditButton
 } from "react-admin"
+import { Link } from "react-router-dom"
+import { get } from "lodash"
 import { AccessSelectInput } from "../components/AccessSelectInput"
-import { CategorySelectInput } from "./category"
+import { CategoryField, CategorySelectInput } from "./category"
 
 export function ProductList(props: any) {
     return (
         <List {...props}>
-            <Datagrid rowClick="edit">
+            <Datagrid>
                 <TextField source="id"/>
                 <TextField source="name"/>
                 <NumberField source="price"/>
                 <TextField source="access"/>
                 <ArrayField source="categories">
-                    <SingleFieldList>
-                        <ChipField source="name"/>
+                    <SingleFieldList linkType={false}>
+                        <CategoryField source="name"/>
                     </SingleFieldList>
                 </ArrayField>
                 <ArrayField source="assets">
@@ -39,6 +43,7 @@ export function ProductList(props: any) {
                 </ArrayField>
                 <DateField source="createdAt" showTime/>
                 <DateField source="updatedAt" showTime/>
+                <EditButton/>
             </Datagrid>
         </List>
     )
@@ -76,5 +81,13 @@ export function ProductCreate(props: any) {
                 </ArrayInput>
             </SimpleForm>
         </Create>
+    )
+}
+
+export function ProductField(props: any) {
+    const record = useRecordContext(props)
+    const url = linkToRecord("/product", record.product.id, "edit")
+    return (
+        <Link to={url}>{get(record, props.source)}</Link>
     )
 }

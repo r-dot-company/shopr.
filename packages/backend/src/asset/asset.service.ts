@@ -10,16 +10,8 @@ import { CreateAssetDTO } from "./dto/create-asset.dto"
 @Injectable()
 export class AssetService {
     private readonly include = {
-        type: {
-            select: {
-                key: true
-            }
-        },
-        product: {
-            select: {
-                name: true
-            }
-        }
+        type: true,
+        product: true
     }
 
     constructor(

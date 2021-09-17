@@ -14,6 +14,7 @@ import {
     EditButton
 } from "react-admin"
 import { OrderStatusInput } from "../components/OrderStatusInput"
+import { ProductField } from "./product"
 import { UserField } from "./user"
 
 export function OrderList(props: any) {
@@ -23,11 +24,11 @@ export function OrderList(props: any) {
                 <TextField source="id"/>
                 <TextField source="status"/>
                 <NumberField source="total"/>
-                <UserField source="user.id"/>
+                <UserField source="user.email"/>
                 <ArrayField source="products">
                     <Datagrid>
                         <NumberField source="amount"/>
-                        <TextField source="product.name" label="Product"/>
+                        <ProductField source="product.name"/>
                     </Datagrid>
                 </ArrayField>
                 <DateField source="createdAt" showTime/>
