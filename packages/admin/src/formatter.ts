@@ -23,6 +23,11 @@ const resourceFormats: Record<string, (data: any) => any> = {
             productId: data.product.id,
             typeKey: data.type.key
         }
+    },
+    admin: (data: API.Admin): API.AdminCreate => {
+        return {
+            userId: data.user.id
+        }
     }
 }
 

@@ -1,7 +1,7 @@
 import { Admin, Resource } from "react-admin"
 import { authProvider } from "./authProvider"
 import { dataProvider } from "./dataProvider"
-import { AdminList } from "./resources/admin"
+import { AdminCreate, AdminList } from "./resources/admin"
 import { AssetCreate, AssetList } from "./resources/asset"
 import { AssetTypeCreate, AssetTypeEdit, AssetTypeList } from "./resources/asset-type"
 import { CategoryCreate, CategoryEdit, CategoryList } from "./resources/category"
@@ -18,7 +18,7 @@ export default function App() {
             <Resource name="order" list={OrderList} edit={OrderEdit}/>
             <Resource name="asset" list={AssetList} create={AssetCreate}/>
             <Resource name="asset-type" list={AssetTypeList} edit={AssetTypeEdit} create={AssetTypeCreate}/>
-            <Resource name="admin" list={AdminList}/>
+            <Resource name="admin" list={AdminList} create={AdminCreate}/>
         </Admin>
     )
 }

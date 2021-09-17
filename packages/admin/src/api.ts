@@ -58,6 +58,10 @@ export namespace API {
         updateAt: string
     }
 
+    export type AdminCreate = {
+        userId: string
+    }
+
     export type AssetType = {
         key: string,
         mimeType: string
