@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import {
     List,
     Datagrid,
@@ -7,8 +8,12 @@ import {
     SimpleForm,
     FileInput,
     TextInput,
-    FileField
+    FileField,
+    useQueryWithStore,
+    Loading,
+    Error
 } from "react-admin"
+import { useFormState } from "react-final-form"
 import { makeURL } from "../api"
 import { AssetTypeSelect } from "./asset-type"
 
@@ -34,9 +39,9 @@ export function AssetCreate(props: any) {
             <SimpleForm>
                 <AssetTypeSelect source="type.key" label="Type"/>
                 <TextInput source="product.id"/>
-                <FileInput source="file">
+                <AssetFileInput source="file">
                     <FileField source="src" title="title"/>
-                </FileInput>
+                </AssetFileInput>
             </SimpleForm>
         </Create>
     )
@@ -56,5 +61,35 @@ function AssetPreviewField(props: any) {
 
     return (
         <a download href={url}>Download</a>
+    )
+}
+
+function AssetFileInput(props: any) {
+    const { values } = useFormState()
+
+    const { loaded, error, data } = useQueryWithStore({
+        type: "getOne",
+        resource: "asset-type",
+        payload: {
+            id: values.type?.key
+        }
+    })
+
+    if (!values.type) {
+        return <></>
+    }
+
+    if (!loaded) {
+        return <Loading/>
+    }
+
+    if (error) {
+        return <Error error={error}/>
+    }
+
+    return (
+        <FileInput {...props} accept={data.mimeType}>
+            {props.children}
+        </FileInput>
     )
 }
