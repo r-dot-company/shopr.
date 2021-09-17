@@ -33,6 +33,15 @@ export class AssetTypeAdminController {
         return [size, assetTypes.map((assetType) => new AssetTypeEntity(assetType))]
     }
 
+    @Get(":key")
+    async getOne(@Param("key") key: string) {
+        const assetType = await this.assetTypeService.findByKey(key)
+        if (!assetType) {
+            throw new NotFoundException()
+        }
+        return new AssetTypeEntity(assetType)
+    }
+
     @Post()
     async create(@Body() createAssetTypeDTO: CreateAssetTypeDTO) {
         const existingAssetType = await this.assetTypeService.findByKey(
