@@ -1,0 +1,17 @@
+{
+  "name": "@shopr/gateway",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "GPL-3.0-or-later",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "build": ":"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  },
+  "dependencies": {
+    "http-proxy": "^1.18.1"
+  }
+}
