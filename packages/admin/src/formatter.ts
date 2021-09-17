@@ -16,6 +16,13 @@ const resourceFormats: Record<string, (data: any) => any> = {
             children: pickFromArray(data.children, "id"),
             parents: pickFromArray(data.parents, "id"),
         }
+    },
+    asset: (data: API.Asset): API.AssetCreate => {
+        return {
+            ...data,
+            productId: data.product.id,
+            typeKey: data.type.key
+        }
     }
 }
 
@@ -25,7 +32,11 @@ export const formatBody = (resource: string, data: any) => {
     if (SEND_AS_MULTIPART.includes(resource)) {
         const form = new FormData()
         for (let key in data) {
-            form.append(key, data[key])
+            let value = data[key]
+            if (typeof value === "object" && value?.rawFile) {
+                value = value.rawFile
+            }
+            form.append(key, value)
         }
         return form
     }

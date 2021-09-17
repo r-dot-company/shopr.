@@ -71,6 +71,11 @@ export namespace API {
         product: Product
     }
 
+    export type AssetCreate =
+        Omit<Omit<Asset, "type">, "product"> & {
+            productId: number
+        }
+
     export type Category = {
         id: number,
         key: string,

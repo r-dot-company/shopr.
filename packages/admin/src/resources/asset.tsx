@@ -2,9 +2,15 @@ import {
     List,
     Datagrid,
     TextField,
-    useRecordContext
+    useRecordContext,
+    Create,
+    SimpleForm,
+    FileInput,
+    TextInput,
+    FileField
 } from "react-admin"
 import { makeURL } from "../api"
+import { AssetTypeSelect } from "./asset-type"
 
 const IMAGE_EXTENSIONS = [".jpeg", ".jpg", ".png", ".gif"]
 
@@ -19,6 +25,20 @@ export function AssetList(props: any) {
                 <AssetPreviewField source="filename" label="Preview"/>
             </Datagrid>
         </List>
+    )
+}
+
+export function AssetCreate(props: any) {
+    return (
+        <Create {...props}>
+            <SimpleForm>
+                <AssetTypeSelect source="type.key" label="Type"/>
+                <TextInput source="product.id"/>
+                <FileInput source="file">
+                    <FileField source="src" title="title"/>
+                </FileInput>
+            </SimpleForm>
+        </Create>
     )
 }
 
