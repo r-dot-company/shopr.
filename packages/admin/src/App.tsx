@@ -5,7 +5,7 @@ import { AdminList } from "./resources/admin"
 import { AssetList } from "./resources/asset"
 import { AssetTypeList } from "./resources/asset-type"
 import { CategoryCreate, CategoryEdit, CategoryList } from "./resources/category"
-import { OrderList } from "./resources/order"
+import { OrderEdit, OrderList } from "./resources/order"
 import { ProductCreate, ProductEdit, ProductList } from "./resources/product"
 import { UserList } from "./resources/user"
 
@@ -15,7 +15,7 @@ export default function App() {
             <Resource name="user" list={UserList}/>
             <Resource name="product" list={ProductList} edit={ProductEdit} create={ProductCreate}/>
             <Resource name="category" list={CategoryList} edit={CategoryEdit} create={CategoryCreate}/>
-            <Resource name="order" list={OrderList}/>
+            <Resource name="order" list={OrderList} edit={OrderEdit}/>
             <Resource name="asset" list={AssetList}/>
             <Resource name="asset-type" list={AssetTypeList}/>
             <Resource name="admin" list={AdminList}/>

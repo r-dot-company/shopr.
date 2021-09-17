@@ -4,13 +4,20 @@ import {
     TextField,
     NumberField,
     DateField,
-    ArrayField
+    ArrayField,
+    Edit,
+    SimpleForm,
+    TextInput,
+    NumberInput,
+    ArrayInput,
+    SimpleFormIterator
 } from "react-admin"
+import { OrderStatusInput } from "../components/OrderStatusInput"
 
 export function OrderList(props: any) {
     return (
         <List {...props}>
-            <Datagrid>
+            <Datagrid rowClick="edit">
                 <TextField source="id"/>
                 <TextField source="status"/>
                 <NumberField source="total"/>
@@ -25,5 +32,23 @@ export function OrderList(props: any) {
                 <DateField source="updatedAt" showTime/>
             </Datagrid>
         </List>
+    )
+}
+
+export function OrderEdit(props: any) {
+    return (
+        <Edit {...props}>
+            <SimpleForm>
+                <TextInput disabled source="id"/>
+                <OrderStatusInput source="status"/>
+                <NumberInput disabled source="total"/>
+                <ArrayInput disabled source="products">
+                    <SimpleFormIterator>
+                        <NumberInput disabled source="amount"/>
+                        <TextInput disbaled source="product.name" label="Product"/>
+                    </SimpleFormIterator>
+                </ArrayInput>
+            </SimpleForm>
+        </Edit>
     )
 }
