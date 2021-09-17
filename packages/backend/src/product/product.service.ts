@@ -65,7 +65,12 @@ export class ProductService {
 
     async create(createProductDTO: CreateProductDTO) {
         return await this.prisma.product.create({
-            data: createProductDTO,
+            data: {
+                ...createProductDTO,
+                categories: {
+                    connect: createProductDTO.categories.map((id) => ({ id }))
+                }
+            },
             include: this.include
         })
     }
