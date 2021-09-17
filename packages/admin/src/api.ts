@@ -79,6 +79,12 @@ export namespace API {
         parents: Category[]
     }
 
+    export type CreateCategory =
+        Omit<Omit<Category, "children">, "parents"> & {
+            children: number[],
+            parents: number[]
+        }
+
     export type Order = {
         id: string,
         status: OrderStatus,

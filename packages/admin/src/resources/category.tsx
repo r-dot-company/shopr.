@@ -9,13 +9,19 @@ import {
     SelectInputProps,
     useQueryWithStore,
     Loading,
-    Error
+    Error,
+    Edit,
+    Create,
+    SimpleForm,
+    TextInput,
+    ArrayInput,
+    SimpleFormIterator
 } from "react-admin"
 
 export function CategoryList(props: any) {
     return (
         <List {...props}>
-            <Datagrid>
+            <Datagrid rowClick="edit">
                 <TextField source="id"/>
                 <TextField source="key"/>
                 <TextField source="name"/>
@@ -31,6 +37,49 @@ export function CategoryList(props: any) {
                 </ArrayField>
             </Datagrid>
         </List>
+    )
+}
+
+export function CategoryEdit(props: any) {
+    return (
+        <Edit {...props}>
+            <SimpleForm>
+                <TextInput disabled source="id"/>
+                <TextInput source="key"/>
+                <TextInput source="name"/>
+                <ArrayInput source="children">
+                    <SimpleFormIterator>
+                        <CategorySelectInput source="id"/>
+                    </SimpleFormIterator>
+                </ArrayInput>
+                <ArrayInput source="parents">
+                    <SimpleFormIterator>
+                        <CategorySelectInput source="id"/>
+                    </SimpleFormIterator>
+                </ArrayInput>
+            </SimpleForm>
+        </Edit>
+    )
+}
+
+export function CategoryCreate(props: any) {
+    return (
+        <Create {...props}>
+            <SimpleForm>
+                <TextInput source="key"/>
+                <TextInput source="name"/>
+                <ArrayInput source="children">
+                    <SimpleFormIterator>
+                        <CategorySelectInput source="id"/>
+                    </SimpleFormIterator>
+                </ArrayInput>
+                <ArrayInput source="parents">
+                    <SimpleFormIterator>
+                        <CategorySelectInput source="id"/>
+                    </SimpleFormIterator>
+                </ArrayInput>
+            </SimpleForm>
+        </Create>
     )
 }
 
