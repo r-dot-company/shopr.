@@ -2,6 +2,8 @@ import { fetchUtils } from "react-admin"
 import queryString from "query-string"
 import { authProvider } from "./authProvider"
 
+const API_HOST = "http://localhost:8080"
+
 export function httpClient(url: string, options: fetchUtils.Options = {}) {
     if (!options.headers) {
         options.headers = new Headers({
@@ -20,7 +22,7 @@ export function makeURL(path: string, params?: Record<string, any>) {
     const query = !params ? "" : queryString.stringify(params, {
         arrayFormat: "bracket"
     })
-    return `${process.env.REACT_APP_API_HOST}/api/v1/${path}?${query}`
+    return `${API_HOST}/api/v1/${path}?${query}`
 }
 
 export function makeAdminURL(...args: Parameters<typeof makeURL>) {
