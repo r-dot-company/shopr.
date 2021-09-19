@@ -1,5 +1,7 @@
 FROM node:16-alpine
 
+ARG REACT_APP_API_URL
+
 WORKDIR /app
 
 COPY . .
