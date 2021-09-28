@@ -46,6 +46,6 @@ export class AssetTypeService {
     }
 
     getMimeTypes(assetType: AssetType) {
-        return assetType.mimeType.split(",")
+        return assetType.mimeType?.split(",")
     }
 }

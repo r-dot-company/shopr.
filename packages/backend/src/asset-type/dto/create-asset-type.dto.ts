@@ -7,7 +7,6 @@ export class CreateAssetTypeDTO {
     key: string
 
     @IsString()
-    @IsNotEmpty()
     @MaxLength(255)
-    mimeType: string
+    mimeType?: string
 }

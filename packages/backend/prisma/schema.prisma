@@ -94,7 +94,7 @@ model Asset {
 
 model AssetType {
   key      String   @id @db.VarChar(255)
-  mimeType String   @db.VarChar(255)
+  mimeType String?  @db.VarChar(255)
   assets   Asset[]
 }
 

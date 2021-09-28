@@ -65,6 +65,6 @@ export class AssetService {
 
     private validateFile(file: Express.Multer.File, assetType: AssetType) {
         const validMimeTypes = this.assetTypeService.getMimeTypes(assetType)
-        return validMimeTypes.includes(file.mimetype)
+        return !Array.isArray(validMimeTypes) ? true : validMimeTypes.includes(file.mimetype)
     }
 }
