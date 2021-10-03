@@ -1,6 +1,7 @@
 import {
     Body,
     Controller,
+    Delete,
     Get,
     NotFoundException,
     Param,
@@ -42,15 +43,24 @@ export class OrderAdminController {
 
     @Put(":id")
     async updateOrder(
-        @AuthUser() user: User,
         @Param("id") id: string,
         @Body() updateOrderDTO: UpdateOrderDTO
     ) {
         const order = await this.orderService.findById(id)
-        if (!order || order.userId !== user.id) {
+        if (!order) {
             throw new NotFoundException()
         }
         const newOrder = await this.orderService.update(id, updateOrderDTO)
         return new OrderEntity(newOrder)
+    }
+
+    @Delete(":id")
+    async deleteOrder(@Param("id") id: string) {
+        const order = await this.orderService.findById(id)
+        if (!order) {
+            throw new NotFoundException()
+        }
+        await this.orderService.delete(id)
+        return new OrderEntity(order)
     }
 }

@@ -81,6 +81,17 @@ export class OrderService {
         })
     }
 
+    async delete(id: string) {
+        await this.prisma.cartProduct.deleteMany({
+            where: {
+                orderId: id
+            }
+        })
+        return await this.prisma.order.delete({
+            where: { id }
+        })
+    }
+
     private calculateTotal(cartProducts: (CartProduct & { product: Product })[]) {
         return cartProducts.reduce((total, cartProduct) => {
             const { price } = cartProduct.product

@@ -23,7 +23,7 @@ export class OrderEntity implements Order {
     @Type(() => CartProductEntity)
     products: Partial<CartProductEntity>[]
 
-    @Expose({ groups: [Role.Admin] })
+    @Expose()
     createdAt: Date
 
     @Expose({ groups: [Role.Admin] })

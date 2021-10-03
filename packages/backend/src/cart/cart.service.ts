@@ -6,6 +6,19 @@ import { UpdateProductDTO } from "./dto/update-product.dto"
 
 @Injectable()
 export class CartService {
+    private readonly include = {
+        product: {
+            include: {
+                categories: true,
+                assets: {
+                    include: {
+                        type: true
+                    }
+                }
+            }
+        }
+    }
+
     constructor(private readonly prisma: PrismaService) {}
 
     async findByUser(user: User) {
@@ -13,9 +26,7 @@ export class CartService {
             where: {
                 userId: user.id
             },
-            include: {
-                product: true
-            }
+            include: this.include
         })
     }
 

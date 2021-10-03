@@ -9,6 +9,7 @@
   "workspaces": ["packages/*"],
   "scripts": {
     "build": "yarn workspaces run build",
-    "start": "./start.sh"
+    "start": "./start.sh",
+    "start:concurrently": "npx concurrently \"yarn workspace @shopr/backend start\" \"yarn workspace @shopr/admin start\" \"yarn workspace @shopr/gateway start\""
   }
 }
